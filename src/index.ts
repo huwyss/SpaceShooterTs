@@ -1,9 +1,7 @@
-import { SpaceShip } from './SpaceShip';
-import { Mediator } from './Mediator';
-import { IGameObject } from './IGameObject';
-import { ICell, Cell, CellType } from './Cell';
-
-let cell = new Cell(100, 200, CellType.SpaceShip, true);
+import { SpaceShip } from './SpaceShip.js';
+import { Mediator } from './Mediator.js';
+import { IGameObject } from './IGameObject.js';
+import { ICell, Cell, CellType } from './Cell.js';
 
 // Hole das Canvas-Element und den 2D-Kontext
 const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
@@ -72,8 +70,6 @@ function gameLoop()
     // hier: gameObjects.PerformStep();
 
     requestAnimationFrame(gameLoop);
-
-    console.log("game loop finished.")
 }
 
 

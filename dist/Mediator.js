@@ -1,4 +1,4 @@
-import { GameEvent } from './GameEvent';
+import { GameEvent } from './GameEvent.js';
 export class Mediator {
     constructor() {
         this.gameStarted = new GameEvent();

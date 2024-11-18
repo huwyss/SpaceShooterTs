@@ -1,6 +1,6 @@
-import { Rocket } from "./Rocket"; // Importiere die Basisklasse
-import { Mediator } from "./Mediator"; // Importiere den Mediator
-import { Cell, CellType } from "./Cell"; // Importiere die Cell-Klasse und den CellType
+import { Rocket } from "./Rocket.js"; // Importiere die Basisklasse
+import { Mediator } from "./Mediator.js"; // Importiere den Mediator
+import { Cell, CellType } from "./Cell.js"; // Importiere die Cell-Klasse und den CellType
 
 export class FriendlyRocket extends Rocket
 {

@@ -1,4 +1,4 @@
-import { Cell, CellType } from './Cell';
+import { Cell, CellType } from './Cell.js';
 // import { FriendlyRocket } from './FriendlyRocket';
 var Direction;
 (function (Direction) {

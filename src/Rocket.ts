@@ -1,6 +1,6 @@
-import { ICell } from "./Cell";
-import { IGameObject } from "./IGameObject";
-import { Mediator } from "./Mediator";
+import { ICell } from "./Cell.js";
+import { IGameObject } from "./IGameObject.js";
+import { Mediator } from "./Mediator.js";
 
 
 export abstract class Rocket implements IGameObject {

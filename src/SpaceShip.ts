@@ -1,6 +1,6 @@
-import { Mediator } from './Mediator';
-import { IGameObject } from './IGameObject';
-import { ICell, Cell, CellType } from './Cell';
+import { Mediator } from './Mediator.js';
+import { IGameObject } from './IGameObject.js';
+import { ICell, Cell, CellType } from './Cell.js';
 // import { FriendlyRocket } from './FriendlyRocket';
 
 enum Direction {

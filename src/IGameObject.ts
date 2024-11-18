@@ -1,4 +1,4 @@
-import { ICell, Cell, CellType } from './Cell';
+import { ICell, Cell, CellType } from './Cell.js';
 
 export interface IGameObject
 {
