@@ -1,9 +1,7 @@
-"use strict";
-// import { SpaceShip } from './SpaceShip';
-// import { Mediator } from './Mediator';
-// import { IGameObject } from './IGameObject';
-// import { ICell, Cell, CellType } from './Cell';
-// let cell = new Cell(100, 200, CellType.SpaceShip, true);
+import { SpaceShip } from './SpaceShip';
+import { Mediator } from './Mediator';
+import { Cell, CellType } from './Cell';
+let cell = new Cell(100, 200, CellType.SpaceShip, true);
 // Hole das Canvas-Element und den 2D-Kontext
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -53,11 +51,13 @@ function gameLoop() {
     updateRectangle();
     // hier: gameObjects.PerformStep();
     requestAnimationFrame(gameLoop);
+    console.log("game loop finished.");
 }
-// let mediator = new Mediator();
-// const gameObjects: IGameObject[] = [];
-// let spaceShip = new SpaceShip(mediator, gameObjects);
-// mediator.gameStarted.emit();
+let mediator = new Mediator();
+const gameObjects = [];
+let spaceShip = new SpaceShip(mediator, gameObjects);
+mediator.gameStarted.emit();
+console.log("starting GameLoop...");
 // Starte die Animation
 gameLoop();
 //# sourceMappingURL=index.js.map

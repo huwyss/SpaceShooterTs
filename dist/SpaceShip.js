@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.SpaceShip = void 0;
-const Cell_1 = require("./Cell");
+import { Cell, CellType } from './Cell';
 // import { FriendlyRocket } from './FriendlyRocket';
 var Direction;
 (function (Direction) {
@@ -9,7 +6,7 @@ var Direction;
     Direction[Direction["Right"] = 1] = "Right";
     Direction[Direction["None"] = 2] = "None";
 })(Direction || (Direction = {}));
-class SpaceShip {
+export class SpaceShip {
     constructor(mediator, gameObjects) {
         this.cells = [];
         // private spaceTimer: NodeJS.Timeout | null = null;
@@ -17,7 +14,7 @@ class SpaceShip {
         this.pauseOnce = false;
         this.mediator = mediator;
         this.gameObjects = gameObjects;
-        this.ship = new Cell_1.Cell(3, 27, Cell_1.CellType.SpaceShip, true);
+        this.ship = new Cell(3, 27, CellType.SpaceShip, true);
         this.cells.push(this.ship);
         this.dir = Direction.None;
         this.mediator.gameStarted.addListener((msg) => this.OnGameStarted(msg));
@@ -25,12 +22,14 @@ class SpaceShip {
         // this.mediator.KeyReleased.add(this.keyReleased.bind(this));
         // Initialize the timer with an interval
         // this.spaceTimer = null;
+        console.log("SpaceShip: constructor called.");
     }
     cleanup() {
         // this.mediator.KeyPressed.remove(this.keyPressed.bind(this));
         // this.mediator.KeyReleased.remove(this.keyReleased.bind(this));
     }
     OnGameStarted(msg) {
+        console.log("OnGameStarted called of SpaceShip.");
     }
     get bodyCells() {
         return this.cells;
@@ -83,5 +82,4 @@ class SpaceShip {
         }
     }
 }
-exports.SpaceShip = SpaceShip;
 //# sourceMappingURL=SpaceShip.js.map

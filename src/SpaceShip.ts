@@ -36,6 +36,8 @@ export class SpaceShip implements IGameObject {
 
         // Initialize the timer with an interval
         // this.spaceTimer = null;
+
+        console.log("SpaceShip: constructor called.")
     }
 
     public cleanup(): void {
@@ -45,7 +47,7 @@ export class SpaceShip implements IGameObject {
 
     OnGameStarted(msg: void) : void
     {
-
+        console.log("OnGameStarted called of SpaceShip.")
     }
 
     public get bodyCells(): ICell[] {

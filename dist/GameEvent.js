@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.GameEvent = void 0;
-class GameEvent {
+export class GameEvent {
     constructor() {
         this.listeners = [];
     }
@@ -15,8 +12,8 @@ class GameEvent {
     }
     // Auslösen des Events
     emit(args) {
+        console.log("emit called...");
         this.listeners.forEach(listener => listener(args));
     }
 }
-exports.GameEvent = GameEvent;
 //# sourceMappingURL=GameEvent.js.map

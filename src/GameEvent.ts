@@ -13,6 +13,7 @@ export class GameEvent<T> {
 
     // Auslösen des Events
     public emit(args: T): void {
+        console.log("emit called...");
         this.listeners.forEach(listener => listener(args));
     }
 }

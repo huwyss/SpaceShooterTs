@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Rocket = void 0;
-class Rocket {
+export class Rocket {
     // Getter für BodyCells
     get bodyCells() {
         return this._cells;
@@ -16,5 +13,4 @@ class Rocket {
     cleanup() {
     }
 }
-exports.Rocket = Rocket;
 //# sourceMappingURL=Rocket.js.map
