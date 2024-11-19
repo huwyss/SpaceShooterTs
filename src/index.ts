@@ -79,7 +79,7 @@ const gameObjects: IGameObject[] = [];
 let spaceShip = new SpaceShip(mediator, gameObjects);
 mediator.gameStarted.emit();
 
-console.log("................................................game loop .....");
+console.log("Starting game loop ...");
 
 
 // Starte die Animation

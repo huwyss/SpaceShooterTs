@@ -54,7 +54,7 @@ let mediator = new Mediator();
 const gameObjects = [];
 let spaceShip = new SpaceShip(mediator, gameObjects);
 mediator.gameStarted.emit();
-console.log("................................................game loop .....");
+console.log("Starting game loop ...");
 // Starte die Animation
 gameLoop();
 //# sourceMappingURL=index.js.map
