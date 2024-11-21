@@ -7,15 +7,17 @@ export class GameLogic
 {
     _canvas: HTMLCanvasElement;
     _ctx: CanvasRenderingContext2D | null;
+    _document: Document;
     _mediator: Mediator;
     _gameObjects: IGameObject[];
     _spaceShip: SpaceShip;
     _renderer: Renderer;
 
-    constructor(canvas : HTMLCanvasElement, ctx: CanvasRenderingContext2D | null)
+    constructor(canvas : HTMLCanvasElement, ctx: CanvasRenderingContext2D | null, document: Document)
     {
         this._canvas = canvas;
         this._ctx = ctx;
+        this._document = document;
         this._mediator = new Mediator();
         this._gameObjects = [];
         this._spaceShip = new SpaceShip(this._mediator, this._gameObjects);
@@ -28,8 +30,8 @@ export class GameLogic
 
         console.log("Starting game loop ...");
 
-        document.addEventListener("keydown", (event: KeyboardEvent) => {
-            debugger; // Hilft, den genauen Durchlauf zu debuggen
+        this._document.addEventListener("keydown", (event: KeyboardEvent) => {
+            // debugger; // Hilft, den genauen Durchlauf zu debuggen
             this._mediator.OnKeyDown(event);
             console.log(`Key pressed: ${event.key}`);
         });

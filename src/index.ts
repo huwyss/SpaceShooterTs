@@ -4,6 +4,6 @@ import { GameLogic } from "./GameLogic.js";
 window.addEventListener("load", () => {
     const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
     const ctx = canvas.getContext("2d");
-    const game = new GameLogic(canvas, ctx);
+    const game = new GameLogic(canvas, ctx, document);
     game.start();
 });

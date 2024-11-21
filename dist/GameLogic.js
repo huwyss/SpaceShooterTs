@@ -2,9 +2,10 @@ import { SpaceShip } from './SpaceShip.js';
 import { Mediator } from './Mediator.js';
 import { Renderer } from './Renderer.js';
 export class GameLogic {
-    constructor(canvas, ctx) {
+    constructor(canvas, ctx, document) {
         this._canvas = canvas;
         this._ctx = ctx;
+        this._document = document;
         this._mediator = new Mediator();
         this._gameObjects = [];
         this._spaceShip = new SpaceShip(this._mediator, this._gameObjects);
@@ -13,8 +14,8 @@ export class GameLogic {
     start() {
         this._mediator.onGameStarted();
         console.log("Starting game loop ...");
-        document.addEventListener("keydown", (event) => {
-            debugger; // Hilft, den genauen Durchlauf zu debuggen
+        this._document.addEventListener("keydown", (event) => {
+            // debugger; // Hilft, den genauen Durchlauf zu debuggen
             this._mediator.OnKeyDown(event);
             console.log(`Key pressed: ${event.key}`);
         });
