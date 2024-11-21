@@ -29,6 +29,7 @@ export class SpaceShip implements IGameObject {
         this.dir = Direction.None;
 
         this.mediator.gameStarted.addListener((msg) => this.OnGameStarted(msg));
+        this.mediator.keyDown.addListener((msg) => this.OnKeyDown(msg));
 
 
         // this.mediator.KeyPressed.add(this.keyPressed.bind(this));
@@ -48,6 +49,22 @@ export class SpaceShip implements IGameObject {
     OnGameStarted(msg: void) : void
     {
         console.log("OnGameStarted called of SpaceShip.")
+    }
+
+    OnKeyDown(event: KeyboardEvent) : void
+    {
+        console.log("keypressed in spaceship...")
+
+        if (event.key === "ArrowLeft")
+        {
+            console.log("arrow left in spaceship...")
+            this.ship.PositionX -= 1;
+        }
+        else if (event.key === "ArrowRight")
+        {
+            console.log("arrow right in spaceship...")
+            this.ship.PositionX += 1;
+        }
     }
 
     public get bodyCells(): ICell[] {
