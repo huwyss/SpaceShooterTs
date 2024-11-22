@@ -9,9 +9,11 @@ export class Renderer
     // Farben definieren
     backgroundColor = "lightblue";
     rectColor = "red";
+    shipColor = "blue"
 
     _canvas: HTMLCanvasElement;
     _ctx: CanvasRenderingContext2D | null;
+    _gameObjects: IGameObject[];
 
     // Variablen für Animation
     rectX = 50;
@@ -21,10 +23,11 @@ export class Renderer
     rectSpeedX = 3;
     rectSpeedY = 2;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D | null)
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D | null, gameObjects: IGameObject[])
     {
         this._canvas = canvas;
         this._ctx = ctx;
+        this._gameObjects = gameObjects;
     }
    
     // Zeichne Hintergrund
@@ -66,13 +69,37 @@ export class Renderer
         }
     }
 
+    drawGameObjects() : void
+    {
+        if (this._ctx == null)
+        {
+            return;
+        }
+
+        this._gameObjects.forEach((gameObject) => {
+        // let gameObject = this._gameObjects[0];
+            let x = gameObject.bodyCells[0].PositionX;
+            let y = gameObject.bodyCells[0].PositionY;
+            let type = gameObject.bodyCells[0].Type;
+            let visible = gameObject.bodyCells[0].IsVisible;
+
+            if (visible)
+            {
+                this._ctx!.fillStyle = this.shipColor;
+                this._ctx!.fillRect(x, y, this.rectWidth, this.rectHeight);
+            }
+        });
+    }
+
     // Haupt-Animationsschleife
     public gameLoop = (): void => {
+        
         this.drawBackground();
-        this.drawRectangle();
+        // this.drawRectangle();
+        this.drawGameObjects();
     
         // todo löschen, das ist Teil von PerformNextStep()
-        this.updateRectangle();
+        // this.updateRectangle();
 
         // hier: gameObjects.PerformStep();
 

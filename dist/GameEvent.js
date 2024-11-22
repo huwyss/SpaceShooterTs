@@ -12,7 +12,6 @@ export class GameEvent {
     }
     // Auslösen des Events
     emit(args) {
-        console.log("emit called...");
         this.listeners.forEach(listener => listener(args));
     }
 }

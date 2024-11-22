@@ -2,10 +2,11 @@
 // const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
 // const ctx = canvas.getContext("2d");
 export class Renderer {
-    constructor(canvas, ctx) {
+    constructor(canvas, ctx, gameObjects) {
         // Farben definieren
         this.backgroundColor = "lightblue";
         this.rectColor = "red";
+        this.shipColor = "blue";
         // Variablen für Animation
         this.rectX = 50;
         this.rectY = 50;
@@ -16,14 +17,16 @@ export class Renderer {
         // Haupt-Animationsschleife
         this.gameLoop = () => {
             this.drawBackground();
-            this.drawRectangle();
+            // this.drawRectangle();
+            this.drawGameObjects();
             // todo löschen, das ist Teil von PerformNextStep()
-            this.updateRectangle();
+            // this.updateRectangle();
             // hier: gameObjects.PerformStep();
             requestAnimationFrame(this.gameLoop);
         };
         this._canvas = canvas;
         this._ctx = ctx;
+        this._gameObjects = gameObjects;
     }
     // Zeichne Hintergrund
     drawBackground() {
@@ -52,6 +55,22 @@ export class Renderer {
         if (this.rectY <= 0 || this.rectY + this.rectHeight >= this._canvas.height) {
             this.rectSpeedY *= -1; // Richtung umkehren
         }
+    }
+    drawGameObjects() {
+        if (this._ctx == null) {
+            return;
+        }
+        this._gameObjects.forEach((gameObject) => {
+            // let gameObject = this._gameObjects[0];
+            let x = gameObject.bodyCells[0].PositionX;
+            let y = gameObject.bodyCells[0].PositionY;
+            let type = gameObject.bodyCells[0].Type;
+            let visible = gameObject.bodyCells[0].IsVisible;
+            if (visible) {
+                this._ctx.fillStyle = this.shipColor;
+                this._ctx.fillRect(x, y, this.rectWidth, this.rectHeight);
+            }
+        });
     }
 }
 //# sourceMappingURL=Renderer.js.map

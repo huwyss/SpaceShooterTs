@@ -21,7 +21,8 @@ export class GameLogic
         this._mediator = new Mediator();
         this._gameObjects = [];
         this._spaceShip = new SpaceShip(this._mediator, this._gameObjects);
-        this._renderer = new Renderer(this._canvas, this._ctx);
+        this._gameObjects.push(this._spaceShip);
+        this._renderer = new Renderer(this._canvas, this._ctx, this._gameObjects);
     }
 
     public start()
@@ -33,7 +34,7 @@ export class GameLogic
         this._document.addEventListener("keydown", (event: KeyboardEvent) => {
             // debugger; // Hilft, den genauen Durchlauf zu debuggen
             this._mediator.OnKeyDown(event);
-            console.log(`Key pressed: ${event.key}`);
+            //console.log(`Key pressed: ${event.key}`);
         });
 
         // Starte die Animation
