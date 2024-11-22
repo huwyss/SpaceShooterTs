@@ -8,7 +8,6 @@ export class Mediator {
         this.gameStarted.emit();
     }
     OnKeyDown(event) {
-        console.log("keypressed in mediator...");
         this.keyDown.emit(event);
     }
 }

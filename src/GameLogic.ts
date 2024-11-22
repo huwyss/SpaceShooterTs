@@ -13,11 +13,11 @@ export class GameLogic
     _spaceShip: SpaceShip;
     _renderer: Renderer;
 
-    constructor(canvas : HTMLCanvasElement, ctx: CanvasRenderingContext2D | null, document: Document)
+    constructor(canvas : HTMLCanvasElement, ctx: CanvasRenderingContext2D | null, doc: Document)
     {
         this._canvas = canvas;
         this._ctx = ctx;
-        this._document = document;
+        this._document = doc;
         this._mediator = new Mediator();
         this._gameObjects = [];
         this._spaceShip = new SpaceShip(this._mediator, this._gameObjects);

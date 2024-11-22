@@ -31,7 +31,6 @@ export class Mediator
 
     OnKeyDown(event: KeyboardEvent) : void
     {
-        console.log("keypressed in mediator...")
         this.keyDown.emit(event)
     }
     

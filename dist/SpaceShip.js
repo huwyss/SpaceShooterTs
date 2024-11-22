@@ -18,7 +18,7 @@ export class SpaceShip {
         this.cells.push(this.ship);
         this.dir = Direction.None;
         this.mediator.gameStarted.addListener((msg) => this.OnGameStarted(msg));
-        this.mediator.keyDown.addListener((msg) => this.OnKeyDown(msg));
+        this.mediator.keyDown.addListener((x) => this.OnKeyDown(x));
         // this.mediator.KeyPressed.add(this.keyPressed.bind(this));
         // this.mediator.KeyReleased.add(this.keyReleased.bind(this));
         // Initialize the timer with an interval
@@ -33,14 +33,13 @@ export class SpaceShip {
         console.log("OnGameStarted called of SpaceShip.");
     }
     OnKeyDown(event) {
-        console.log("keypressed in spaceship...");
         if (event.key === "ArrowLeft") {
-            console.log("arrow left in spaceship...");
             this.ship.PositionX -= 1;
+            console.log("space ship pos x :" + this.ship.PositionX);
         }
         else if (event.key === "ArrowRight") {
-            console.log("arrow right in spaceship...");
             this.ship.PositionX += 1;
+            console.log("space ship pos x :" + this.ship.PositionX);
         }
     }
     get bodyCells() {

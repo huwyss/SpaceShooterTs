@@ -2,10 +2,10 @@ import { SpaceShip } from './SpaceShip.js';
 import { Mediator } from './Mediator.js';
 import { Renderer } from './Renderer.js';
 export class GameLogic {
-    constructor(canvas, ctx, document) {
+    constructor(canvas, ctx, doc) {
         this._canvas = canvas;
         this._ctx = ctx;
-        this._document = document;
+        this._document = doc;
         this._mediator = new Mediator();
         this._gameObjects = [];
         this._spaceShip = new SpaceShip(this._mediator, this._gameObjects);
