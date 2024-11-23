@@ -1,7 +1,7 @@
 import { Mediator } from './Mediator.js';
 import { IGameObject } from './IGameObject.js';
 import { ICell, Cell, CellType } from './Cell.js';
-// import { FriendlyRocket } from './FriendlyRocket';
+import { FriendlyRocket } from './FriendlyRocket.js';
 
 enum Direction {
     Left,
@@ -55,15 +55,27 @@ export class SpaceShip implements IGameObject {
     {
         if (event.key === "ArrowLeft")
         {
-            this.ship.PositionX -= 1;
+            this.direction = Direction.Left;
         }
         else if (event.key === "ArrowRight")
         {
-            this.ship.PositionX += 1;
+            this.direction = Direction.Right;
+        }
+        else if (event.key == " ")
+        {
+            if (this.canPressSpace)
+            {
+                this.fireRocket(this.ship.PositionX, this.ship.PositionY);
+                this.canPressSpace = false;
+                // this.spaceTimer = setTimeout(() => {
+                //     this.canPressSpace = true;
+                // }, 150);
+            }
         }
     }
 
-    public get bodyCells(): ICell[] {
+    public get bodyCells(): ICell[]
+    {
         return this.cells;
     }
 
@@ -95,30 +107,30 @@ export class SpaceShip implements IGameObject {
         this.pauseOnce = true;
     }
 
-    private keyPressed(sender: any, key: string): void {
-        switch (key) {
-            case 'Left':
-                this.direction = Direction.Left;
-                break;
+    // private keyPressed(sender: any, key: string): void {
+    //     switch (key) {
+    //         case 'Left':
+    //             this.direction = Direction.Left;
+    //             break;
 
-            case 'Right':
-                this.direction = Direction.Right;
-                break;
+    //         case 'Right':
+    //             this.direction = Direction.Right;
+    //             break;
 
-            case 'Space':
-                if (this.canPressSpace) {
-                    // this.fireRocket(this.ship.PositionX, this.ship.PositionY);
-                    this.canPressSpace = false;
-                    // this.spaceTimer = setTimeout(() => {
-                    //     this.canPressSpace = true;
-                    // }, 150);
-                }
-                break;
+    //         case 'Space':
+    //             if (this.canPressSpace) {
+    //                 // this.fireRocket(this.ship.PositionX, this.ship.PositionY);
+    //                 this.canPressSpace = false;
+    //                 // this.spaceTimer = setTimeout(() => {
+    //                 //     this.canPressSpace = true;
+    //                 // }, 150);
+    //             }
+    //             break;
 
-            default:
-                break;
-        }
-    }
+    //         default:
+    //             break;
+    //     }
+    // }
 
     private keyReleased(sender: any, key: string): void {
         if (key === 'Left' || key === 'Right') {
@@ -126,9 +138,9 @@ export class SpaceShip implements IGameObject {
         }
     }
 
-    // private fireRocket(posX: number, posY: number): void {
-    //     const rocket = new FriendlyRocket(this.mediator, posX, posY);
-    //     this.gameObjects.push(rocket);
-    // }
+    private fireRocket(posX: number, posY: number): void {
+        let rocket = new FriendlyRocket(this.mediator, posX, posY);
+        this.gameObjects.push(rocket);
+    }
 }
 

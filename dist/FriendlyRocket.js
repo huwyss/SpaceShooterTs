@@ -14,5 +14,17 @@ export class FriendlyRocket extends Rocket {
     RocketHitTarget() {
         console.log("Friendly rocket hit the target!");
     }
+    performNextGameStep() {
+        if (!this._rocket.IsVisible) {
+            return;
+        }
+        this._rocket.PositionY -= 1;
+        if (this._rocket.PositionY < 0) {
+            this._cells = [];
+        }
+        else {
+            //this._mediator.OnFriendlyRocketMoved(_rocket.PositionX, _rocket.PositionY);
+        }
+    }
 }
 //# sourceMappingURL=FriendlyRocket.js.map

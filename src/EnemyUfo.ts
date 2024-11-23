@@ -28,7 +28,6 @@ export class EnemyUfo implements IGameObject
         
         this.difficulty = 1 - level * 0.07;
         this.approachTimerStart = 100 - 5 * level;
-
     }
 
     public get bodyCells(): ICell[]

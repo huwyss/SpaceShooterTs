@@ -23,4 +23,23 @@ export class FriendlyRocket extends Rocket
     {
         console.log("Friendly rocket hit the target!");
     }
+
+    override performNextGameStep(): void
+    {
+        if (!this._rocket.IsVisible)
+            {
+                return;
+            }
+             
+            this._rocket.PositionY -= 1;
+            
+            if (this._rocket.PositionY < 0)
+            {
+                this._cells = [];
+            }
+            else
+            {
+                //this._mediator.OnFriendlyRocketMoved(_rocket.PositionX, _rocket.PositionY);
+            }
+    }
 }

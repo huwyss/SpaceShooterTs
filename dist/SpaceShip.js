@@ -1,5 +1,5 @@
 import { Cell, CellType } from './Cell.js';
-// import { FriendlyRocket } from './FriendlyRocket';
+import { FriendlyRocket } from './FriendlyRocket.js';
 var Direction;
 (function (Direction) {
     Direction[Direction["Left"] = 0] = "Left";
@@ -34,10 +34,19 @@ export class SpaceShip {
     }
     OnKeyDown(event) {
         if (event.key === "ArrowLeft") {
-            this.ship.PositionX -= 1;
+            this.direction = Direction.Left;
         }
         else if (event.key === "ArrowRight") {
-            this.ship.PositionX += 1;
+            this.direction = Direction.Right;
+        }
+        else if (event.key == " ") {
+            if (this.canPressSpace) {
+                this.fireRocket(this.ship.PositionX, this.ship.PositionY);
+                this.canPressSpace = false;
+                // this.spaceTimer = setTimeout(() => {
+                //     this.canPressSpace = true;
+                // }, 150);
+            }
         }
     }
     get bodyCells() {
@@ -64,31 +73,35 @@ export class SpaceShip {
         this.performNextGameStep();
         this.pauseOnce = true;
     }
-    keyPressed(sender, key) {
-        switch (key) {
-            case 'Left':
-                this.direction = Direction.Left;
-                break;
-            case 'Right':
-                this.direction = Direction.Right;
-                break;
-            case 'Space':
-                if (this.canPressSpace) {
-                    // this.fireRocket(this.ship.PositionX, this.ship.PositionY);
-                    this.canPressSpace = false;
-                    // this.spaceTimer = setTimeout(() => {
-                    //     this.canPressSpace = true;
-                    // }, 150);
-                }
-                break;
-            default:
-                break;
-        }
-    }
+    // private keyPressed(sender: any, key: string): void {
+    //     switch (key) {
+    //         case 'Left':
+    //             this.direction = Direction.Left;
+    //             break;
+    //         case 'Right':
+    //             this.direction = Direction.Right;
+    //             break;
+    //         case 'Space':
+    //             if (this.canPressSpace) {
+    //                 // this.fireRocket(this.ship.PositionX, this.ship.PositionY);
+    //                 this.canPressSpace = false;
+    //                 // this.spaceTimer = setTimeout(() => {
+    //                 //     this.canPressSpace = true;
+    //                 // }, 150);
+    //             }
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // }
     keyReleased(sender, key) {
         if (key === 'Left' || key === 'Right') {
             this.direction = Direction.None;
         }
+    }
+    fireRocket(posX, posY) {
+        let rocket = new FriendlyRocket(this.mediator, posX, posY);
+        this.gameObjects.push(rocket);
     }
 }
 //# sourceMappingURL=SpaceShip.js.map
