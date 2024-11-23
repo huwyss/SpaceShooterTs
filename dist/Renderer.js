@@ -1,34 +1,29 @@
-// Hole das Canvas-Element und den 2D-Kontext
-// const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
-// const ctx = canvas.getContext("2d");
+import { CellType } from "./Cell.js";
 export class Renderer {
     constructor(canvas, ctx, gameObjects) {
-        // Farben definieren
         this.backgroundColor = "lightblue";
-        this.rectColor = "red";
+        this.enemyColor = "lightgreen";
+        this.ufoColor = "darkgrey";
+        this.ribbonColor = "darkgreen";
         this.shipColor = "blue";
-        // Variablen für Animation
-        this.rectX = 50;
-        this.rectY = 50;
-        this.rectWidth = 100;
-        this.rectHeight = 50;
-        this.rectSpeedX = 3;
-        this.rectSpeedY = 2;
+        this.friendlyRocketColor = "white";
+        this.enemyRocketColor = "yellow";
         // Haupt-Animationsschleife
         this.gameLoop = () => {
             this.drawBackground();
-            // this.drawRectangle();
             this.drawGameObjects();
-            // todo löschen, das ist Teil von PerformNextStep()
-            // this.updateRectangle();
-            // hier: gameObjects.PerformStep();
+            this._gameObjects.forEach(gameObject => {
+                gameObject.performNextGameStep();
+            });
             requestAnimationFrame(this.gameLoop);
         };
         this._canvas = canvas;
         this._ctx = ctx;
         this._gameObjects = gameObjects;
+        this._cellSize = 25;
+        this._gridSizeX = this._canvas.width / this._cellSize;
+        this._gridSizeY = this._canvas.height / this._cellSize;
     }
-    // Zeichne Hintergrund
     drawBackground() {
         if (this._ctx == null) {
             return;
@@ -36,41 +31,47 @@ export class Renderer {
         this._ctx.fillStyle = this.backgroundColor;
         this._ctx.fillRect(0, 0, this._canvas.width, this._canvas.height);
     }
-    // Zeichne ein bewegliches Rechteck
-    drawRectangle() {
-        if (this._ctx == null) {
-            return;
-        }
-        this._ctx.fillStyle = this.rectColor;
-        this._ctx.fillRect(this.rectX, this.rectY, this.rectWidth, this.rectHeight);
-    }
-    // Aktualisiere Position des Rechtecks
-    updateRectangle() {
-        this.rectX += this.rectSpeedX;
-        this.rectY += this.rectSpeedY;
-        // Kollisionserkennung: Wände
-        if (this.rectX <= 0 || this.rectX + this.rectWidth >= this._canvas.width) {
-            this.rectSpeedX *= -1; // Richtung umkehren
-        }
-        if (this.rectY <= 0 || this.rectY + this.rectHeight >= this._canvas.height) {
-            this.rectSpeedY *= -1; // Richtung umkehren
-        }
-    }
     drawGameObjects() {
         if (this._ctx == null) {
             return;
         }
         this._gameObjects.forEach((gameObject) => {
-            // let gameObject = this._gameObjects[0];
-            let x = gameObject.bodyCells[0].PositionX;
-            let y = gameObject.bodyCells[0].PositionY;
-            let type = gameObject.bodyCells[0].Type;
-            let visible = gameObject.bodyCells[0].IsVisible;
-            if (visible) {
-                this._ctx.fillStyle = this.shipColor;
-                this._ctx.fillRect(x, y, this.rectWidth, this.rectHeight);
-            }
+            gameObject.bodyCells.forEach(cell => {
+                let x = cell.PositionX;
+                let y = cell.PositionY;
+                let type = cell.Type;
+                let visible = cell.IsVisible;
+                if (visible) {
+                    this._ctx.fillStyle = this.getColor(type);
+                    this._ctx.fillRect(x * this._cellSize, y * this._cellSize, this._cellSize, this._cellSize);
+                }
+            });
         });
+    }
+    getColor(cellType) {
+        switch (cellType) {
+            case CellType.SpaceShip:
+                return this.shipColor;
+                break;
+            case CellType.Enemy:
+                return this.enemyColor;
+                break;
+            case CellType.Ufo:
+                return this.ufoColor;
+                break;
+            case CellType.UfoRibbon:
+                return this.ribbonColor;
+                break;
+            case CellType.FriendlyRocket:
+                return this.friendlyRocketColor;
+                break;
+            case CellType.EnemyRocket:
+                return this.enemyRocketColor;
+                break;
+            default:
+                return this.friendlyRocketColor;
+                break;
+        }
     }
 }
 //# sourceMappingURL=Renderer.js.map

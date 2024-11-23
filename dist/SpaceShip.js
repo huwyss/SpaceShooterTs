@@ -14,7 +14,7 @@ export class SpaceShip {
         this.pauseOnce = false;
         this.mediator = mediator;
         this.gameObjects = gameObjects;
-        this.ship = new Cell(3, 520, CellType.SpaceShip, true);
+        this.ship = new Cell(3, 23, CellType.SpaceShip, true);
         this.cells.push(this.ship);
         this.dir = Direction.None;
         this.mediator.gameStarted.addListener((msg) => this.OnGameStarted(msg));
@@ -34,12 +34,10 @@ export class SpaceShip {
     }
     OnKeyDown(event) {
         if (event.key === "ArrowLeft") {
-            this.ship.PositionX -= 10;
-            //console.log("space ship pos x :" + this.ship.PositionX)
+            this.ship.PositionX -= 1;
         }
         else if (event.key === "ArrowRight") {
-            this.ship.PositionX += 10;
-            //console.log("space ship pos x :" + this.ship.PositionX)
+            this.ship.PositionX += 1;
         }
     }
     get bodyCells() {

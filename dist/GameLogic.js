@@ -1,27 +1,30 @@
 import { SpaceShip } from './SpaceShip.js';
 import { Mediator } from './Mediator.js';
 import { Renderer } from './Renderer.js';
+import { EnemyUfo } from './EnemyUfo.js';
 export class GameLogic {
     constructor(canvas, ctx, doc) {
-        this._canvas = canvas;
-        this._ctx = ctx;
-        this._document = doc;
-        this._mediator = new Mediator();
-        this._gameObjects = [];
-        this._spaceShip = new SpaceShip(this._mediator, this._gameObjects);
-        this._gameObjects.push(this._spaceShip);
-        this._renderer = new Renderer(this._canvas, this._ctx, this._gameObjects);
+        this.canvas = canvas;
+        this.ctx = ctx;
+        this.document = doc;
+        this.mediator = new Mediator();
+        this.gameObjects = [];
+        this.spaceShip = new SpaceShip(this.mediator, this.gameObjects);
+        this.gameObjects.push(this.spaceShip);
+        this.enemyUfo = new EnemyUfo(this.mediator, 1, this.gameObjects);
+        this.gameObjects.push(this.enemyUfo);
+        this.renderer = new Renderer(this.canvas, this.ctx, this.gameObjects);
     }
     start() {
-        this._mediator.onGameStarted();
+        this.mediator.onGameStarted();
         console.log("Starting game loop ...");
-        this._document.addEventListener("keydown", (event) => {
+        this.document.addEventListener("keydown", (event) => {
             // debugger; // Hilft, den genauen Durchlauf zu debuggen
-            this._mediator.OnKeyDown(event);
+            this.mediator.OnKeyDown(event);
             //console.log(`Key pressed: ${event.key}`);
         });
         // Starte die Animation
-        this._renderer.gameLoop();
+        this.renderer.gameLoop();
     }
 }
 //# sourceMappingURL=GameLogic.js.map

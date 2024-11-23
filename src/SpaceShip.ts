@@ -23,7 +23,7 @@ export class SpaceShip implements IGameObject {
         this.mediator = mediator;
         this.gameObjects = gameObjects;
 
-        this.ship = new Cell(3, 520, CellType.SpaceShip, true);
+        this.ship = new Cell(3, 23, CellType.SpaceShip, true);
         this.cells.push(this.ship);
 
         this.dir = Direction.None;
@@ -55,11 +55,11 @@ export class SpaceShip implements IGameObject {
     {
         if (event.key === "ArrowLeft")
         {
-            this.ship.PositionX -= 10;
+            this.ship.PositionX -= 1;
         }
         else if (event.key === "ArrowRight")
         {
-            this.ship.PositionX += 10;
+            this.ship.PositionX += 1;
         }
     }
 
