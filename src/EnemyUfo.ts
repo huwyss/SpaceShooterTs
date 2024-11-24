@@ -1,4 +1,5 @@
 import { Mediator } from './Mediator.js';
+import { EnemyRocket } from './EnemyRocket.js';
 import { IGameObject } from './IGameObject.js';
 import { ICell, Cell, CellType } from './Cell.js';
 
@@ -37,7 +38,17 @@ export class EnemyUfo implements IGameObject
 
     performNextGameStep(): void
     {
-        
+        if (Math.random() > this.difficulty) // level 1: difficulty = 90% => fires in 10% of steps.
+        {
+            var posX = Math.random() * 29 + 2;
+            this.ufoFired(posX, this.ribbonY);
+        }
+    }
+
+    private ufoFired(posX: number, posY: number) : void
+    {
+        var rocket = new EnemyRocket(this.mediator, posX, posY);
+        this.gameObjects.push(rocket);
     }
 
     cleanup(): void

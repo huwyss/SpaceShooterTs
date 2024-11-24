@@ -20,15 +20,11 @@ export class SpaceShip {
         this.mediator.gameStarted.addListener((msg) => this.OnGameStarted(msg));
         this.mediator.keyDown.addListener((x) => this.keyDown(x));
         this.mediator.keyUp.addListener((x) => this.keyUp(x));
-        // this.mediator.KeyPressed.add(this.keyPressed.bind(this));
-        // this.mediator.KeyReleased.add(this.keyReleased.bind(this));
-        // Initialize the timer with an interval
-        // this.spaceTimer = null;
-        console.log("SpaceShip: constructor called.");
     }
     cleanup() {
-        // this.mediator.KeyPressed.remove(this.keyPressed.bind(this));
-        // this.mediator.KeyReleased.remove(this.keyReleased.bind(this));
+        this.mediator.gameStarted.removeListener((msg) => this.OnGameStarted(msg));
+        this.mediator.keyDown.removeListener((x) => this.keyDown(x));
+        this.mediator.keyUp.removeListener((x) => this.keyUp(x));
     }
     OnGameStarted(msg) {
         console.log("OnGameStarted called of SpaceShip.");
@@ -53,11 +49,6 @@ export class SpaceShip {
             this.direction = Direction.None;
         }
     }
-    // private keyReleased(sender: any, key: string): void {
-    //     if (key === 'Left' || key === 'Right') {
-    //         this.direction = Direction.None;
-    //     }
-    // }
     get bodyCells() {
         return this.cells;
     }
