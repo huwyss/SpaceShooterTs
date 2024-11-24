@@ -36,6 +36,10 @@ export class EnemyUfo implements IGameObject
         return this.cells;
     }
 
+    get frequency(): number {
+        return 2;
+    }
+
     performNextGameStep(): void
     {
         if (Math.random() > this.difficulty) // level 1: difficulty = 90% => fires in 10% of steps.

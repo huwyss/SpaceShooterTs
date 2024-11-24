@@ -18,6 +18,7 @@ export class SpaceShip implements IGameObject
     private dir: Direction;
     private spaceTimer: number = 0;
     private canPressSpace: boolean = true;
+    private speedTimer: number = 0;
 
     constructor(mediator: Mediator, gameObjects: IGameObject[]) {
         this.mediator = mediator;
@@ -31,6 +32,10 @@ export class SpaceShip implements IGameObject
         this.mediator.gameStarted.addListener((msg) => this.OnGameStarted(msg));
         this.mediator.keyDown.addListener((x) => this.keyDown(x));
         this.mediator.keyUp.addListener((x) => this.keyUp(x));
+    }
+
+    get frequency(): number {
+        return 2;
     }
 
     public cleanup(): void
@@ -83,6 +88,13 @@ export class SpaceShip implements IGameObject
 
     public performNextGameStep(): void
     {
+        this.speedTimer -= 1;
+        if (this.speedTimer > 0)
+        {
+            return;
+        }
+        this.speedTimer = this.frequency;
+
         this.spaceTimer-= 1;
         if (this.spaceTimer <= 0)
         {

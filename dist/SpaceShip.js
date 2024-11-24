@@ -11,6 +11,7 @@ export class SpaceShip {
         this.cells = [];
         this.spaceTimer = 0;
         this.canPressSpace = true;
+        this.speedTimer = 0;
         this.pauseOnce = false;
         this.mediator = mediator;
         this.gameObjects = gameObjects;
@@ -20,6 +21,9 @@ export class SpaceShip {
         this.mediator.gameStarted.addListener((msg) => this.OnGameStarted(msg));
         this.mediator.keyDown.addListener((x) => this.keyDown(x));
         this.mediator.keyUp.addListener((x) => this.keyUp(x));
+    }
+    get frequency() {
+        return 2;
     }
     cleanup() {
         this.mediator.gameStarted.removeListener((msg) => this.OnGameStarted(msg));
@@ -53,6 +57,11 @@ export class SpaceShip {
         return this.cells;
     }
     performNextGameStep() {
+        this.speedTimer -= 1;
+        if (this.speedTimer > 0) {
+            return;
+        }
+        this.speedTimer = this.frequency;
         this.spaceTimer -= 1;
         if (this.spaceTimer <= 0) {
             this.spaceTimer = 0;

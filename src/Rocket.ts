@@ -14,6 +14,10 @@ export abstract class Rocket implements IGameObject {
         return this._cells;
     }
 
+    get frequency(): number {
+        return 3;
+    }
+
     // Konstruktor
     constructor(mediator: Mediator) {
         this._mediator = mediator;

@@ -16,6 +16,9 @@ export class EnemyUfo {
     get bodyCells() {
         return this.cells;
     }
+    get frequency() {
+        return 2;
+    }
     performNextGameStep() {
         if (Math.random() > this.difficulty) // level 1: difficulty = 90% => fires in 10% of steps.
          {
