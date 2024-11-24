@@ -19,9 +19,10 @@ export class GameLogic {
         this.mediator.onGameStarted();
         console.log("Starting game loop ...");
         this.document.addEventListener("keydown", (event) => {
-            // debugger; // Hilft, den genauen Durchlauf zu debuggen
             this.mediator.OnKeyDown(event);
-            //console.log(`Key pressed: ${event.key}`);
+        });
+        this.document.addEventListener("keyup", (event) => {
+            this.mediator.OnKeyUp(event);
         });
         // Starte die Animation
         this.renderer.gameLoop();

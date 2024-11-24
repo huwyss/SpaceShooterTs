@@ -9,14 +9,14 @@ enum Direction {
     None
 }
 
-export class SpaceShip implements IGameObject {
+export class SpaceShip implements IGameObject
+{
     private readonly mediator: Mediator;
     private readonly gameObjects: IGameObject[];
     private cells: ICell[] = [];
     private ship: Cell;
     private dir: Direction;
-
-    // private spaceTimer: NodeJS.Timeout | null = null;
+    private spaceTimer: number = 0;
     private canPressSpace: boolean = true;
 
     constructor(mediator: Mediator, gameObjects: IGameObject[]) {
@@ -29,21 +29,15 @@ export class SpaceShip implements IGameObject {
         this.dir = Direction.None;
 
         this.mediator.gameStarted.addListener((msg) => this.OnGameStarted(msg));
-        this.mediator.keyDown.addListener((x) => this.OnKeyDown(x));
-
-
-        // this.mediator.KeyPressed.add(this.keyPressed.bind(this));
-        // this.mediator.KeyReleased.add(this.keyReleased.bind(this));
-
-        // Initialize the timer with an interval
-        // this.spaceTimer = null;
-
-        console.log("SpaceShip: constructor called.")
+        this.mediator.keyDown.addListener((x) => this.keyDown(x));
+        this.mediator.keyUp.addListener((x) => this.keyUp(x));
     }
 
-    public cleanup(): void {
-        // this.mediator.KeyPressed.remove(this.keyPressed.bind(this));
-        // this.mediator.KeyReleased.remove(this.keyReleased.bind(this));
+    public cleanup(): void
+    {
+        this.mediator.gameStarted.removeListener((msg) => this.OnGameStarted(msg));
+        this.mediator.keyDown.removeListener((x) => this.keyDown(x));
+        this.mediator.keyUp.removeListener((x) => this.keyUp(x));
     }
 
     OnGameStarted(msg: void) : void
@@ -51,7 +45,7 @@ export class SpaceShip implements IGameObject {
         console.log("OnGameStarted called of SpaceShip.")
     }
 
-    OnKeyDown(event: KeyboardEvent) : void
+    keyDown(event: KeyboardEvent) : void
     {
         if (event.key === "ArrowLeft")
         {
@@ -67,10 +61,16 @@ export class SpaceShip implements IGameObject {
             {
                 this.fireRocket(this.ship.PositionX, this.ship.PositionY);
                 this.canPressSpace = false;
-                // this.spaceTimer = setTimeout(() => {
-                //     this.canPressSpace = true;
-                // }, 150);
+                this.spaceTimer = 5;
             }
+        }
+    }
+
+    keyUp(event: KeyboardEvent) : void
+    {
+        if (event.key === "ArrowLeft" || event.key === "ArrowRight")
+        {
+            this.direction = Direction.None;
         }
     }
 
@@ -81,7 +81,15 @@ export class SpaceShip implements IGameObject {
 
     private pauseOnce: boolean = false;
 
-    public performNextGameStep(): void {
+    public performNextGameStep(): void
+    {
+        this.spaceTimer-= 1;
+        if (this.spaceTimer <= 0)
+        {
+            this.spaceTimer = 0;
+            this.canPressSpace = true;
+        }
+
         if (this.pauseOnce) {
             this.pauseOnce = false;
             return;
@@ -101,41 +109,10 @@ export class SpaceShip implements IGameObject {
         }
     }
 
-    private set direction(value: Direction) {
+    private set direction(value: Direction)
+    {
         this.dir = value;
         this.performNextGameStep();
-        this.pauseOnce = true;
-    }
-
-    // private keyPressed(sender: any, key: string): void {
-    //     switch (key) {
-    //         case 'Left':
-    //             this.direction = Direction.Left;
-    //             break;
-
-    //         case 'Right':
-    //             this.direction = Direction.Right;
-    //             break;
-
-    //         case 'Space':
-    //             if (this.canPressSpace) {
-    //                 // this.fireRocket(this.ship.PositionX, this.ship.PositionY);
-    //                 this.canPressSpace = false;
-    //                 // this.spaceTimer = setTimeout(() => {
-    //                 //     this.canPressSpace = true;
-    //                 // }, 150);
-    //             }
-    //             break;
-
-    //         default:
-    //             break;
-    //     }
-    // }
-
-    private keyReleased(sender: any, key: string): void {
-        if (key === 'Left' || key === 'Right') {
-            this.direction = Direction.None;
-        }
     }
 
     private fireRocket(posX: number, posY: number): void {

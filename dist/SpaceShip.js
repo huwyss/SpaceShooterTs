@@ -9,7 +9,7 @@ var Direction;
 export class SpaceShip {
     constructor(mediator, gameObjects) {
         this.cells = [];
-        // private spaceTimer: NodeJS.Timeout | null = null;
+        this.spaceTimer = 0;
         this.canPressSpace = true;
         this.pauseOnce = false;
         this.mediator = mediator;
@@ -18,7 +18,8 @@ export class SpaceShip {
         this.cells.push(this.ship);
         this.dir = Direction.None;
         this.mediator.gameStarted.addListener((msg) => this.OnGameStarted(msg));
-        this.mediator.keyDown.addListener((x) => this.OnKeyDown(x));
+        this.mediator.keyDown.addListener((x) => this.keyDown(x));
+        this.mediator.keyUp.addListener((x) => this.keyUp(x));
         // this.mediator.KeyPressed.add(this.keyPressed.bind(this));
         // this.mediator.KeyReleased.add(this.keyReleased.bind(this));
         // Initialize the timer with an interval
@@ -32,7 +33,7 @@ export class SpaceShip {
     OnGameStarted(msg) {
         console.log("OnGameStarted called of SpaceShip.");
     }
-    OnKeyDown(event) {
+    keyDown(event) {
         if (event.key === "ArrowLeft") {
             this.direction = Direction.Left;
         }
@@ -43,16 +44,29 @@ export class SpaceShip {
             if (this.canPressSpace) {
                 this.fireRocket(this.ship.PositionX, this.ship.PositionY);
                 this.canPressSpace = false;
-                // this.spaceTimer = setTimeout(() => {
-                //     this.canPressSpace = true;
-                // }, 150);
+                this.spaceTimer = 5;
             }
         }
     }
+    keyUp(event) {
+        if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+            this.direction = Direction.None;
+        }
+    }
+    // private keyReleased(sender: any, key: string): void {
+    //     if (key === 'Left' || key === 'Right') {
+    //         this.direction = Direction.None;
+    //     }
+    // }
     get bodyCells() {
         return this.cells;
     }
     performNextGameStep() {
+        this.spaceTimer -= 1;
+        if (this.spaceTimer <= 0) {
+            this.spaceTimer = 0;
+            this.canPressSpace = true;
+        }
         if (this.pauseOnce) {
             this.pauseOnce = false;
             return;
@@ -71,33 +85,6 @@ export class SpaceShip {
     set direction(value) {
         this.dir = value;
         this.performNextGameStep();
-        this.pauseOnce = true;
-    }
-    // private keyPressed(sender: any, key: string): void {
-    //     switch (key) {
-    //         case 'Left':
-    //             this.direction = Direction.Left;
-    //             break;
-    //         case 'Right':
-    //             this.direction = Direction.Right;
-    //             break;
-    //         case 'Space':
-    //             if (this.canPressSpace) {
-    //                 // this.fireRocket(this.ship.PositionX, this.ship.PositionY);
-    //                 this.canPressSpace = false;
-    //                 // this.spaceTimer = setTimeout(() => {
-    //                 //     this.canPressSpace = true;
-    //                 // }, 150);
-    //             }
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    // }
-    keyReleased(sender, key) {
-        if (key === 'Left' || key === 'Right') {
-            this.direction = Direction.None;
-        }
     }
     fireRocket(posX, posY) {
         let rocket = new FriendlyRocket(this.mediator, posX, posY);

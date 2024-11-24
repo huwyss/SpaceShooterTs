@@ -17,11 +17,13 @@ export class Mediator
 {
     gameStarted: GameEvent<void> ;
     keyDown: GameEvent<KeyboardEvent>;
+    keyUp: GameEvent<KeyboardEvent>;
 
     constructor ()
     {
         this.gameStarted = new GameEvent<void>();
         this.keyDown = new GameEvent<KeyboardEvent>();
+        this.keyUp = new GameEvent<KeyboardEvent>();
     }
     
     onGameStarted() : void
@@ -33,5 +35,9 @@ export class Mediator
     {
         this.keyDown.emit(event)
     }
-    
+
+    OnKeyUp(event: KeyboardEvent) : void
+    {
+        this.keyUp.emit(event)
+    }
 }
