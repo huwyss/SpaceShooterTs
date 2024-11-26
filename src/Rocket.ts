@@ -1,17 +1,18 @@
 import { ICell } from "./Cell.js";
 import { IGameObject } from "./IGameObject.js";
 import { Mediator } from "./Mediator.js";
+import { PositionEvent } from "./Mediator.js";
 
 
 export abstract class Rocket implements IGameObject {
     // Protected Eigenschaften
-    protected readonly _mediator: Mediator;
-    protected _cells: ICell[] = [];
-    protected _rocket!: ICell;
+    protected readonly mediator: Mediator;
+    protected cells: ICell[] = [];
+    protected rocket!: ICell;
 
     // Getter für BodyCells
     get bodyCells(): ICell[] {
-        return this._cells;
+        return this.cells;
     }
 
     get frequency(): number {
@@ -20,7 +21,7 @@ export abstract class Rocket implements IGameObject {
 
     // Konstruktor
     constructor(mediator: Mediator) {
-        this._mediator = mediator;
+        this.mediator = mediator;
     }
 
     performNextGameStep(): void
@@ -31,5 +32,13 @@ export abstract class Rocket implements IGameObject {
     cleanup(): void
     {
 
+    }
+
+    rocketHitTarget(position: PositionEvent) : void
+    {
+        if (position.posX === this.rocket.PositionX && position.posY === this.rocket.PositionY)
+            {
+                this.rocket.IsVisible = false;
+            }
     }
 }

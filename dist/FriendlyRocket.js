@@ -4,12 +4,9 @@ export class FriendlyRocket extends Rocket {
     constructor(mediator, startPosX, startPosY) {
         super(mediator);
         this.speedTimer = 0;
-        // Initialisiere _rocket
-        this._rocket = new Cell(startPosX, startPosY, CellType.FriendlyRocket, true);
-        // Füge _rocket zu _cells hinzu
-        this._cells.push(this._rocket);
-        // Event registrieren
-        //mediator.FriendlyRocketHitTarget.on(this.RocketHitTarget.bind(this));
+        this.rocket = new Cell(startPosX, startPosY, CellType.FriendlyRocket, true);
+        this.cells.push(this.rocket);
+        this.mediator.friendlyRocketHitTarget.addListener((x) => this.rocketHitTarget(x));
     }
     // RocketHitTarget Methode (falls benötigt, implementiere sie hier)
     RocketHitTarget() {
@@ -21,15 +18,15 @@ export class FriendlyRocket extends Rocket {
             return;
         }
         this.speedTimer = this.frequency;
-        if (!this._rocket.IsVisible) {
+        if (!this.rocket.IsVisible) {
             return;
         }
-        this._rocket.PositionY -= 1;
-        if (this._rocket.PositionY < 0) {
-            this._cells = [];
+        this.rocket.PositionY -= 1;
+        if (this.rocket.PositionY < 0) {
+            this.cells = [];
         }
         else {
-            //this._mediator.OnFriendlyRocketMoved(_rocket.PositionX, _rocket.PositionY);
+            this.mediator.OnFriendlyRocketMoved({ posX: this.rocket.PositionX, posY: this.rocket.PositionY });
         }
     }
 }

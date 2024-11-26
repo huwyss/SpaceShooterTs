@@ -3,6 +3,7 @@ import { Mediator } from './Mediator.js';
 import { IGameObject } from './IGameObject.js';
 import { Renderer } from './Renderer.js';
 import { EnemyUfo } from './EnemyUfo.js';
+import { CollisionDetector } from './CollisionDetector.js';
 
 export class GameLogic
 {
@@ -14,6 +15,7 @@ export class GameLogic
     spaceShip: SpaceShip;
     enemyUfo: EnemyUfo;
     renderer: Renderer;
+    collisionDetector: CollisionDetector;
 
     constructor(canvas : HTMLCanvasElement, ctx: CanvasRenderingContext2D | null, doc: Document)
     {
@@ -30,6 +32,7 @@ export class GameLogic
         this.gameObjects.push(this.enemyUfo);
 
         this.renderer = new Renderer(this.canvas, this.ctx, this.gameObjects);
+        this.collisionDetector = new CollisionDetector(this.mediator, this.gameObjects)
     }
 
     public start()

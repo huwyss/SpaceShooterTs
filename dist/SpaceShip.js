@@ -18,7 +18,7 @@ export class SpaceShip {
         this.ship = new Cell(3, 23, CellType.SpaceShip, true);
         this.cells.push(this.ship);
         this.dir = Direction.None;
-        this.mediator.gameStarted.addListener((msg) => this.OnGameStarted(msg));
+        this.mediator.gameStarted.addListener((x) => this.OnGameStarted(x));
         this.mediator.keyDown.addListener((x) => this.keyDown(x));
         this.mediator.keyUp.addListener((x) => this.keyUp(x));
     }
@@ -26,7 +26,7 @@ export class SpaceShip {
         return 2;
     }
     cleanup() {
-        this.mediator.gameStarted.removeListener((msg) => this.OnGameStarted(msg));
+        this.mediator.gameStarted.removeListener((x) => this.OnGameStarted(x));
         this.mediator.keyDown.removeListener((x) => this.keyDown(x));
         this.mediator.keyUp.removeListener((x) => this.keyUp(x));
     }

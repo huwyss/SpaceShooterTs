@@ -5,9 +5,9 @@ export class EnemyRocket extends Rocket {
         super(mediator);
         this.speedTimer = 0;
         // Initialisiere _rocket
-        this._rocket = new Cell(startPosX, startPosY, CellType.EnemyRocket, true);
+        this.rocket = new Cell(startPosX, startPosY, CellType.EnemyRocket, true);
         // Füge _rocket zu _cells hinzu
-        this._cells.push(this._rocket);
+        this.cells.push(this.rocket);
         // Event registrieren
         //mediator.EnemyRocketHitTarget.on(this.RocketHitTarget.bind(this));
     }
@@ -22,15 +22,15 @@ export class EnemyRocket extends Rocket {
             return;
         }
         this.speedTimer = this.frequency;
-        if (!this._rocket.IsVisible) {
+        if (!this.rocket.IsVisible) {
             return;
         }
-        this._rocket.PositionY += 1;
-        if (this._rocket.PositionY > 30) {
-            this._cells = [];
+        this.rocket.PositionY += 1;
+        if (this.rocket.PositionY > 30) {
+            this.cells = [];
         }
         else {
-            //this._mediator.OnEnemyRocketMoved(_rocket.PositionX, _rocket.PositionY);
+            this.mediator.OnEnemyRocketMoved({ posX: this.rocket.PositionX, posY: this.rocket.PositionY });
         }
     }
 }

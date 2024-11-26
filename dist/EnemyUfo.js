@@ -7,11 +7,13 @@ export class EnemyUfo {
         this.cells = [];
         this.ribbon = [];
         this.ribbonRightX = 0;
-        this.ribbonLeftX = 0;
+        this.ribbonLeftX = 1000; // big number, will be set properly while ufo is created.
         this.ribbonY = 0;
         this.createAndAddUfo(2, 2);
+        this.speedTimer = 0;
         this.difficulty = 1 - level * 0.07;
         this.approachTimerStart = 100 - 5 * level;
+        this.mediator.enemyHit.addListener((x) => this.enemyWasHit(x));
     }
     get bodyCells() {
         return this.cells;
@@ -20,10 +22,22 @@ export class EnemyUfo {
         return 2;
     }
     performNextGameStep() {
+        this.speedTimer -= 1;
+        if (this.speedTimer > 0) {
+            return;
+        }
+        this.speedTimer = this.frequency;
         if (Math.random() > this.difficulty) // level 1: difficulty = 90% => fires in 10% of steps.
          {
             var posX = Math.random() * 29 + 2;
             this.ufoFired(posX, this.ribbonY);
+        }
+        this.rotateRibbon();
+    }
+    rotateRibbon() {
+        var ribbonLength = this.ribbonRightX - this.ribbonLeftX + 1;
+        for (const ribbonCell of this.ribbon) {
+            ribbonCell.PositionX = (ribbonCell.PositionX - this.ribbonLeftX + 1) % ribbonLength + this.ribbonLeftX;
         }
     }
     ufoFired(posX, posY) {
@@ -76,6 +90,16 @@ export class EnemyUfo {
         }
         this.ribbonY = ribbonCell.PositionY;
         this.ribbon.push(ribbonCell);
+    }
+    enemyWasHit(position) {
+        for (const cell of this.bodyCells) {
+            if (position.posX === cell.PositionX && position.posY === cell.PositionY && cell.IsVisible) {
+                if (cell.Type == CellType.Enemy) {
+                    // this.mediator.OnOneEnemyKilled();
+                }
+                cell.IsVisible = false;
+            }
+        }
     }
 }
 //# sourceMappingURL=EnemyUfo.js.map
