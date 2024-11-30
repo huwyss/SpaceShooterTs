@@ -12,34 +12,36 @@ export class SpaceShip {
         this.spaceTimer = 0;
         this.canPressSpace = true;
         this.speedTimer = 0;
-        this.pauseOnce = false;
+        this.fireSpeed = 12;
         this.mediator = mediator;
         this.gameObjects = gameObjects;
         this.ship = new Cell(3, 23, CellType.SpaceShip, true);
         this.cells.push(this.ship);
-        this.dir = Direction.None;
+        this._direction = Direction.None;
         this.mediator.keyDown.addListener((x) => this.keyDown(x));
         this.mediator.keyUp.addListener((x) => this.keyUp(x));
     }
-    get frequency() {
-        return 3;
+    get delay() {
+        return 7;
     }
     cleanup() {
         this.mediator.keyDown.removeListener((x) => this.keyDown(x));
         this.mediator.keyUp.removeListener((x) => this.keyUp(x));
+        this._direction = Direction.None;
+        this.spaceTimer = 0;
     }
     keyDown(event) {
         if (event.key === "ArrowLeft") {
-            this.direction = Direction.Left;
+            this.direction = Direction.Left; // special setter
         }
         else if (event.key === "ArrowRight") {
-            this.direction = Direction.Right;
+            this.direction = Direction.Right; // special setter
         }
         else if (event.key == " ") {
             if (this.canPressSpace) {
                 this.fireRocket(this.ship.PositionX, this.ship.PositionY);
                 this.canPressSpace = false;
-                this.spaceTimer = 5;
+                this.spaceTimer = this.fireSpeed;
             }
         }
     }
@@ -52,21 +54,23 @@ export class SpaceShip {
         return this.cells;
     }
     performNextGameStep() {
+        this.decreaseSpaceTimer();
         this.speedTimer -= 1;
         if (this.speedTimer > 0) {
             return;
         }
-        this.speedTimer = this.frequency;
+        this.speedTimer = this.delay;
+        this.moveSpaceShip();
+    }
+    decreaseSpaceTimer() {
         this.spaceTimer -= 1;
         if (this.spaceTimer <= 0) {
-            this.spaceTimer = 0;
+            this.spaceTimer = 10;
             this.canPressSpace = true;
         }
-        if (this.pauseOnce) {
-            this.pauseOnce = false;
-            return;
-        }
-        switch (this.dir) {
+    }
+    moveSpaceShip() {
+        switch (this.direction) {
             case Direction.Left:
                 this.ship.PositionX -= 1;
                 break;
@@ -77,9 +81,13 @@ export class SpaceShip {
                 break;
         }
     }
+    get direction() {
+        return this._direction;
+    }
     set direction(value) {
-        this.dir = value;
-        this.performNextGameStep();
+        this._direction = value;
+        this.speedTimer = this.delay;
+        this.moveSpaceShip();
     }
     fireRocket(posX, posY) {
         let rocket = new FriendlyRocket(this.mediator, posX, posY);

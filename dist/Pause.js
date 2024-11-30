@@ -21,7 +21,7 @@ export class Pause {
     startPause(event) {
         this.timer = event.number;
     }
-    get frequency() {
+    get delay() {
         return 1;
     }
 }

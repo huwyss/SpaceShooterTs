@@ -86,7 +86,7 @@ export class GameLogic
         this.removeSpaceShip();
         this.mediator.OnShowMessage("Game Over");
         this.nextStatus = Status.ShowStartButton;
-        this.mediator.OnStartPause(60);
+        this.mediator.OnStartPause(120);
     }
 
     pauseOver() : void
@@ -134,7 +134,7 @@ export class GameLogic
         }
 
         this.nextLevel = event.number;
-        this.mediator.OnStartPause(60);
+        this.mediator.OnStartPause(120);
     }
 
     startNewLevel() : void

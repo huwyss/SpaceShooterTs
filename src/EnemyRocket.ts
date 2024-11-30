@@ -12,7 +12,7 @@ export class EnemyRocket extends Rocket
 
         this.rocket = new Cell(startPosX, startPosY, CellType.EnemyRocket, true);
         this.cells.push(this.rocket);
-        
+
         this.mediator.enemyRocketHitTarget.addListener((x) => this.rocketHitTarget(x));
     }
 
@@ -28,7 +28,7 @@ export class EnemyRocket extends Rocket
         {
             return;
         }
-        this.speedTimer = this.frequency;
+        this.speedTimer = this.delay;
 
         if (!this.rocket.IsVisible)
         {

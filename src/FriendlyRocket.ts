@@ -28,7 +28,7 @@ export class FriendlyRocket extends Rocket
         {
             return;
         }
-        this.speedTimer = this.frequency;
+        this.speedTimer = this.delay;
 
         if (!this.rocket.IsVisible)
         {

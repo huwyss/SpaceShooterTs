@@ -16,7 +16,7 @@ export class EnemyRocket extends Rocket {
         if (this.speedTimer > 0) {
             return;
         }
-        this.speedTimer = this.frequency;
+        this.speedTimer = this.delay;
         if (!this.rocket.IsVisible) {
             return;
         }

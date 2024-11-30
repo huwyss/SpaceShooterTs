@@ -14,7 +14,7 @@ export abstract class Rocket implements IGameObject
         return this.cells;
     }
 
-    get frequency(): number {
+    get delay(): number {
         return 4;
     }
 

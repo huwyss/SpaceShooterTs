@@ -2,7 +2,7 @@ export class Rocket {
     get bodyCells() {
         return this.cells;
     }
-    get frequency() {
+    get delay() {
         return 4;
     }
     constructor(mediator) {

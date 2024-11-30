@@ -45,7 +45,7 @@ export class EnemyUfo implements IGameObject
         return this.cells;
     }
 
-    get frequency(): number {
+    get delay(): number {
         return 2;
     }
 
@@ -56,7 +56,7 @@ export class EnemyUfo implements IGameObject
         {
             return;
         }
-        this.speedTimer = this.frequency;
+        this.speedTimer = this.delay;
 
         if (Math.random() > this.difficulty) // level 1: difficulty = 90% => fires in 10% of steps.
         {

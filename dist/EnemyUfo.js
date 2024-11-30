@@ -21,7 +21,7 @@ export class EnemyUfo {
     get bodyCells() {
         return this.cells;
     }
-    get frequency() {
+    get delay() {
         return 2;
     }
     performNextGameStep() {
@@ -29,7 +29,7 @@ export class EnemyUfo {
         if (this.speedTimer > 0) {
             return;
         }
-        this.speedTimer = this.frequency;
+        this.speedTimer = this.delay;
         if (Math.random() > this.difficulty) // level 1: difficulty = 90% => fires in 10% of steps.
          {
             var posX = Math.floor(Math.random() * 29 + 2);

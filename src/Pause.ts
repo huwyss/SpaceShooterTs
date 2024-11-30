@@ -40,7 +40,7 @@ export class Pause implements IGameObject
         this.timer = event.number;
     }
 
-    get frequency(): number {
+    get delay(): number {
         return 1;
     }
 }

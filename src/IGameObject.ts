@@ -8,5 +8,5 @@ export interface IGameObject
 
     cleanup(): void;
 
-    frequency: number; // 0 = ultrafast, 1 = fast, 2 = slower ...
+    delay: number; // 0 = ultrafast, 1 = fast, 2 = slower ...
 }
