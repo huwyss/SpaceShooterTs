@@ -4,18 +4,13 @@ export class EnemyRocket extends Rocket {
     constructor(mediator, startPosX, startPosY) {
         super(mediator);
         this.speedTimer = 0;
-        // Initialisiere _rocket
         this.rocket = new Cell(startPosX, startPosY, CellType.EnemyRocket, true);
-        // Füge _rocket zu _cells hinzu
         this.cells.push(this.rocket);
-        // Event registrieren
-        //mediator.EnemyRocketHitTarget.on(this.RocketHitTarget.bind(this));
+        this.mediator.enemyRocketHitTarget.addListener((x) => this.rocketHitTarget(x));
     }
-    // RocketHitTarget Methode (falls benötigt, implementiere sie hier)
-    // private RocketHitTarget(): void
-    // {
-    //     console.log("Friendly rocket hit the target!");
-    // }
+    cleanup() {
+        this.mediator.enemyRocketHitTarget.removeListener((x) => this.rocketHitTarget(x));
+    }
     performNextGameStep() {
         this.speedTimer -= 1;
         if (this.speedTimer > 0) {

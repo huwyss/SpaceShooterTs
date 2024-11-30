@@ -1,12 +1,10 @@
 export class Rocket {
-    // Getter für BodyCells
     get bodyCells() {
         return this.cells;
     }
     get frequency() {
-        return 3;
+        return 4;
     }
-    // Konstruktor
     constructor(mediator) {
         this.cells = [];
         this.mediator = mediator;

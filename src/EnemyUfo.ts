@@ -35,6 +35,11 @@ export class EnemyUfo implements IGameObject
         this.mediator.enemyHit.addListener((x) => this.enemyWasHit(x));
     }
 
+    cleanup(): void
+    {
+        this.mediator.enemyHit.removeListener((x) => this.enemyWasHit(x));
+    }
+
     public get bodyCells(): ICell[]
     {
         return this.cells;
@@ -76,11 +81,6 @@ export class EnemyUfo implements IGameObject
     {
         var rocket = new EnemyRocket(this.mediator, posX, posY);
         this.gameObjects.push(rocket);
-    }
-
-    cleanup(): void
-    {
-        this.mediator.enemyHit.removeListener((x) => this.enemyWasHit(x));
     }
 
     private createAndAddUfo(posX : number, posY : number) : void 

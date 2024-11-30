@@ -32,6 +32,7 @@ export class Pause implements IGameObject
     cleanup(): void
     {
         this.mediator.startPause.removeListener((x) => this.startPause(x));
+        this.timer = 0;
     }
 
     startPause(event: NumberEvent)

@@ -18,20 +18,15 @@ export class SpaceShip {
         this.ship = new Cell(3, 23, CellType.SpaceShip, true);
         this.cells.push(this.ship);
         this.dir = Direction.None;
-        this.mediator.gameStarted.addListener((x) => this.OnGameStarted(x));
         this.mediator.keyDown.addListener((x) => this.keyDown(x));
         this.mediator.keyUp.addListener((x) => this.keyUp(x));
     }
     get frequency() {
-        return 2;
+        return 3;
     }
     cleanup() {
-        this.mediator.gameStarted.removeListener((x) => this.OnGameStarted(x));
         this.mediator.keyDown.removeListener((x) => this.keyDown(x));
         this.mediator.keyUp.removeListener((x) => this.keyUp(x));
-    }
-    OnGameStarted(msg) {
-        console.log("OnGameStarted called of SpaceShip.");
     }
     keyDown(event) {
         if (event.key === "ArrowLeft") {

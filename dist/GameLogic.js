@@ -43,7 +43,6 @@ export class GameLogic {
         this.document.addEventListener("keyup", (event) => {
             this.mediator.OnKeyUp(event);
         });
-        // Starte die Animation
         this.renderer.gameLoop();
     }
     gameOver() {
@@ -89,25 +88,16 @@ export class GameLogic {
         this.setupGameObjects(this.nextLevel);
     }
     removeSpaceShip() {
-        var _a;
-        (_a = this.spaceShip) === null || _a === void 0 ? void 0 : _a.cleanup();
+        this.spaceShip.cleanup();
         const index = this.gameObjects.indexOf(this.spaceShip);
         if (index !== -1) {
             this.gameObjects.splice(index, 1);
         }
     }
-    // updateGameState() : void
-    // {
-    //     var currentGameObjects = _gameObjects.ToList();
-    //     foreach (var gameObject in currentGameObjects)
-    //     {
-    //         gameObject.PerformNextGameStep();
-    //     }
-    // }
     setupGameObjects(level) {
         this.spaceShip = new SpaceShip(this.mediator, this.gameObjects);
         this.gameObjects.push(this.spaceShip);
-        this.enemyUfo = new EnemyUfo(this.mediator, 1, this.gameObjects);
+        this.enemyUfo = new EnemyUfo(this.mediator, level, this.gameObjects);
         this.gameObjects.push(this.enemyUfo);
         this.pause = new Pause(this.mediator);
         this.gameObjects.push(this.pause);

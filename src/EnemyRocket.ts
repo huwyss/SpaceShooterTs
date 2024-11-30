@@ -10,21 +10,16 @@ export class EnemyRocket extends Rocket
     {
         super(mediator);
 
-        // Initialisiere _rocket
         this.rocket = new Cell(startPosX, startPosY, CellType.EnemyRocket, true);
-
-        // Füge _rocket zu _cells hinzu
         this.cells.push(this.rocket);
-
-        // Event registrieren
-        //mediator.EnemyRocketHitTarget.on(this.RocketHitTarget.bind(this));
+        
+        this.mediator.enemyRocketHitTarget.addListener((x) => this.rocketHitTarget(x));
     }
 
-    // RocketHitTarget Methode (falls benötigt, implementiere sie hier)
-    // private RocketHitTarget(): void
-    // {
-    //     console.log("Friendly rocket hit the target!");
-    // }
+    override cleanup()
+    {
+        this.mediator.enemyRocketHitTarget.removeListener((x) => this.rocketHitTarget(x));
+    }
 
     override performNextGameStep(): void
     {
@@ -36,19 +31,19 @@ export class EnemyRocket extends Rocket
         this.speedTimer = this.frequency;
 
         if (!this.rocket.IsVisible)
-            {
-                return;
-            }
-             
-            this.rocket.PositionY += 1;
+        {
+            return;
+        }
             
-            if (this.rocket.PositionY > 30)
-            {
-                this.cells = [];
-            }
-            else
-            {
-                this.mediator.OnEnemyRocketMoved({posX: this.rocket.PositionX, posY: this.rocket.PositionY});
-            }
+        this.rocket.PositionY += 1;
+        
+        if (this.rocket.PositionY > 30)
+        {
+            this.cells = [];
+        }
+        else
+        {
+            this.mediator.OnEnemyRocketMoved({posX: this.rocket.PositionX, posY: this.rocket.PositionY});
+        }
     }
 }

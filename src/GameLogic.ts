@@ -78,7 +78,6 @@ export class GameLogic
             this.mediator.OnKeyUp(event);
         });
 
-        // Starte die Animation
         this.renderer.gameLoop();
     }
 
@@ -146,7 +145,7 @@ export class GameLogic
 
     removeSpaceShip()
     {
-        this.spaceShip?.cleanup();
+        this.spaceShip.cleanup();
         const index = this.gameObjects.indexOf(this.spaceShip);
         if (index !== -1)
         {
@@ -154,22 +153,12 @@ export class GameLogic
         }
     }    
 
-    // updateGameState() : void
-    // {
-    //     var currentGameObjects = _gameObjects.ToList();
-
-    //     foreach (var gameObject in currentGameObjects)
-    //     {
-    //         gameObject.PerformNextGameStep();
-    //     }
-    // }
-
     setupGameObjects(level: number) : void
     {
         this.spaceShip = new SpaceShip(this.mediator, this.gameObjects);
         this.gameObjects.push(this.spaceShip);
         
-        this.enemyUfo = new EnemyUfo(this.mediator, 1, this.gameObjects);
+        this.enemyUfo = new EnemyUfo(this.mediator, level, this.gameObjects);
         this.gameObjects.push(this.enemyUfo);
 
         this.pause = new Pause(this.mediator);

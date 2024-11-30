@@ -29,25 +29,18 @@ export class SpaceShip implements IGameObject
 
         this.dir = Direction.None;
 
-        this.mediator.gameStarted.addListener((x) => this.OnGameStarted(x));
         this.mediator.keyDown.addListener((x) => this.keyDown(x));
         this.mediator.keyUp.addListener((x) => this.keyUp(x));
     }
 
     get frequency(): number {
-        return 2;
+        return 3;
     }
 
     public cleanup(): void
     {
-        this.mediator.gameStarted.removeListener((x) => this.OnGameStarted(x));
         this.mediator.keyDown.removeListener((x) => this.keyDown(x));
         this.mediator.keyUp.removeListener((x) => this.keyUp(x));
-    }
-
-    OnGameStarted(msg: void) : void
-    {
-        console.log("OnGameStarted called of SpaceShip.")
     }
 
     keyDown(event: KeyboardEvent) : void

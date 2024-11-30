@@ -1,6 +1,6 @@
-import { Rocket } from "./Rocket.js"; // Importiere die Basisklasse
-import { Mediator, PositionEvent } from "./Mediator.js"; // Importiere den Mediator
-import { Cell, CellType } from "./Cell.js"; // Importiere die Cell-Klasse und den CellType
+import { Rocket } from "./Rocket.js";
+import { Mediator, PositionEvent } from "./Mediator.js";
+import { Cell, CellType } from "./Cell.js";
 
 export class FriendlyRocket extends Rocket
 {
@@ -11,16 +11,14 @@ export class FriendlyRocket extends Rocket
         super(mediator);
 
         this.rocket = new Cell(startPosX, startPosY,CellType.FriendlyRocket, true);
-
         this.cells.push(this.rocket);
 
         this.mediator.friendlyRocketHitTarget.addListener((x) => this.rocketHitTarget(x));
     }
 
-    // RocketHitTarget Methode (falls benötigt, implementiere sie hier)
-    private RocketHitTarget(): void
+    override cleanup()
     {
-        console.log("Friendly rocket hit the target!");
+        this.mediator.friendlyRocketHitTarget.removeListener((x) => this.rocketHitTarget(x));
     }
 
     override performNextGameStep(): void

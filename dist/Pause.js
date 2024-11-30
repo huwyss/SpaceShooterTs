@@ -16,6 +16,7 @@ export class Pause {
     }
     cleanup() {
         this.mediator.startPause.removeListener((x) => this.startPause(x));
+        this.timer = 0;
     }
     startPause(event) {
         this.timer = event.number;

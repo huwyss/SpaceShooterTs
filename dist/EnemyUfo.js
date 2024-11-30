@@ -15,6 +15,9 @@ export class EnemyUfo {
         this.approachTimerStart = 100 - 5 * level;
         this.mediator.enemyHit.addListener((x) => this.enemyWasHit(x));
     }
+    cleanup() {
+        this.mediator.enemyHit.removeListener((x) => this.enemyWasHit(x));
+    }
     get bodyCells() {
         return this.cells;
     }
@@ -43,9 +46,6 @@ export class EnemyUfo {
     ufoFired(posX, posY) {
         var rocket = new EnemyRocket(this.mediator, posX, posY);
         this.gameObjects.push(rocket);
-    }
-    cleanup() {
-        this.mediator.enemyHit.removeListener((x) => this.enemyWasHit(x));
     }
     createAndAddUfo(posX, posY) {
         var ufo = "         ***********         \n" + // * - Ufo
