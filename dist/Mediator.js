@@ -16,7 +16,6 @@ export class Mediator {
         this.showMessage = new GameEvent();
         this.startPause = new GameEvent();
         this.pauseOver = new GameEvent();
-        this.showStartButton = new GameEvent();
     }
     onGameStarted() {
         this.gameStarted.emit();

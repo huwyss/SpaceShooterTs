@@ -30,7 +30,6 @@ export class Mediator
     showMessage: GameEvent<MessageEvent>;
     startPause: GameEvent<NumberEvent>;
     pauseOver: GameEvent<void>;
-    showStartButton: GameEvent<void>;
     
     constructor ()
     {
@@ -49,7 +48,6 @@ export class Mediator
         this.showMessage = new GameEvent<MessageEvent>();
         this.startPause = new GameEvent<NumberEvent>();
         this.pauseOver = new GameEvent<void>();
-        this.showStartButton = new GameEvent<void>();
     }
     
     onGameStarted() : void
