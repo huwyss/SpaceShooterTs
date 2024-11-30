@@ -16,6 +16,8 @@ export interface MessageEvent {
 export class Mediator 
 {
     gameStarted: GameEvent<void> ;
+    levelWon: GameEvent<NumberEvent>;
+    gameOver: GameEvent<void>;
     keyDown: GameEvent<KeyboardEvent>;
     keyUp: GameEvent<KeyboardEvent>;
     friendlyRocketMoved: GameEvent<PositionEvent>;
@@ -25,10 +27,16 @@ export class Mediator
     enemyRocketHitTarget: GameEvent<PositionEvent>;
     spaceShipHit: GameEvent<PositionEvent>;
     oneEnemyKilled: GameEvent<void>;
-
+    showMessage: GameEvent<MessageEvent>;
+    startPause: GameEvent<NumberEvent>;
+    pauseOver: GameEvent<void>;
+    showStartButton: GameEvent<void>;
+    
     constructor ()
     {
         this.gameStarted = new GameEvent<void>();
+        this.levelWon = new GameEvent<NumberEvent>();
+        this.gameOver = new GameEvent<void>();
         this.keyDown = new GameEvent<KeyboardEvent>();
         this.keyUp = new GameEvent<KeyboardEvent>();
         this.friendlyRocketMoved = new GameEvent<PositionEvent>();
@@ -38,11 +46,25 @@ export class Mediator
         this.enemyRocketHitTarget = new GameEvent<PositionEvent>();
         this.spaceShipHit = new GameEvent<PositionEvent>();
         this.oneEnemyKilled = new GameEvent<void>();
+        this.showMessage = new GameEvent<MessageEvent>();
+        this.startPause = new GameEvent<NumberEvent>();
+        this.pauseOver = new GameEvent<void>();
+        this.showStartButton = new GameEvent<void>();
     }
     
     onGameStarted() : void
     {
         this.gameStarted.emit();
+    }
+    
+    OnLevelWon(event: NumberEvent) : void
+    {
+        this.levelWon.emit(event);
+    }
+
+    OnGameOver() : void
+    {
+        this.gameOver.emit();
     }
 
     OnKeyDown(event: KeyboardEvent) : void
@@ -88,5 +110,25 @@ export class Mediator
     OnOneEnemyKilled() : void
     {
         this.oneEnemyKilled.emit();
+    }
+
+    OnShowMessage(m: string) : void
+    {
+        this.showMessage.emit({message: m});
+    }
+
+    OnStartPause(duration: number)
+    {
+        this.startPause.emit({number: duration})
+    }
+
+    OnPauseOver() : void
+    {
+        this.pauseOver.emit();
+    }
+
+    OnShowStartButton() : void
+    {
+        this.showStartButton.emit();
     }
 }

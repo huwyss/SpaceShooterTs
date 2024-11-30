@@ -1,6 +1,7 @@
 import { CellType } from "./Cell.js";
 import { IGameObject } from "./IGameObject.js";
 import { GameState } from "./GameState.js";
+import { Mediator } from "./Mediator.js";
 
 export class Renderer
 {
@@ -104,10 +105,12 @@ export class Renderer
             this.ctx.fillStyle = "black";
             var scoreText = "Score: " + this.gameState.gameScore + "     Lives: " + this.gameState.lives + "     Level: " + this.gameState.level + "     Highscore: " + this.gameState.highScore;
             this.ctx.fillText(scoreText, 50, 30);
+
+            this.ctx.fillText(this.gameState.message, 300, 200);
         }
     }
 
-    // Haupt-Animationsschleife
+    // Main loop
     public gameLoop = (): void => {
         
         this.drawBackground();

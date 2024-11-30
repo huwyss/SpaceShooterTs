@@ -80,7 +80,7 @@ export class EnemyUfo implements IGameObject
 
     cleanup(): void
     {
-    
+        this.mediator.enemyHit.removeListener((x) => this.enemyWasHit(x));
     }
 
     private createAndAddUfo(posX : number, posY : number) : void 
@@ -154,12 +154,12 @@ export class EnemyUfo implements IGameObject
         {
             if (position.posX === cell.PositionX && position.posY === cell.PositionY && cell.IsVisible)
             {
+                cell.IsVisible = false;
+
                 if (cell.Type == CellType.Enemy)
                 {
                     this.mediator.OnOneEnemyKilled();
                 }
-
-                cell.IsVisible = false;
             }
         }
     }

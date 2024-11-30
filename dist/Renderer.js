@@ -8,7 +8,7 @@ export class Renderer {
         this.shipColor = "blue";
         this.friendlyRocketColor = "white";
         this.enemyRocketColor = "yellow";
-        // Haupt-Animationsschleife
+        // Main loop
         this.gameLoop = () => {
             this.drawBackground();
             this.drawGameObjects();
@@ -81,6 +81,7 @@ export class Renderer {
             this.ctx.fillStyle = "black";
             var scoreText = "Score: " + this.gameState.gameScore + "     Lives: " + this.gameState.lives + "     Level: " + this.gameState.level + "     Highscore: " + this.gameState.highScore;
             this.ctx.fillText(scoreText, 50, 30);
+            this.ctx.fillText(this.gameState.message, 300, 200);
         }
     }
 }

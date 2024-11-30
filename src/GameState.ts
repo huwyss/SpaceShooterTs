@@ -49,7 +49,7 @@ export class GameState
         this.mediator.spaceShipHit.addListener(() => this.spaceShipHit());
         this.mediator.enemyHit.addListener(() => this.enemyWasHit());
         this.mediator.gameStarted.addListener(() => this.gameStarted());
-        //this.mediator.showMessage.addListener((x) => this.showMessage(x));
+        this.mediator.showMessage.addListener((x) => this.showMessage(x));
 
         this.initializeGameState();
     }
@@ -86,7 +86,7 @@ export class GameState
             this.level++;
             this.enemyLives = 5;
             this.gameScore += this.LevelPoints;
-            //this.mediator.OnLevelWon(Level);
+            this.mediator.OnLevelWon({number: this.level});
         }
     }
 
@@ -95,7 +95,7 @@ export class GameState
         this.lives--;
         if (this.lives <= 0)
         {
-            //this.mediator.OnGameOver();
+            this.mediator.OnGameOver();
         }
     }
 

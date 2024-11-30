@@ -45,6 +45,7 @@ export class EnemyUfo {
         this.gameObjects.push(rocket);
     }
     cleanup() {
+        this.mediator.enemyHit.removeListener((x) => this.enemyWasHit(x));
     }
     createAndAddUfo(posX, posY) {
         var ufo = "         ***********         \n" + // * - Ufo
@@ -94,10 +95,10 @@ export class EnemyUfo {
     enemyWasHit(position) {
         for (const cell of this.bodyCells) {
             if (position.posX === cell.PositionX && position.posY === cell.PositionY && cell.IsVisible) {
+                cell.IsVisible = false;
                 if (cell.Type == CellType.Enemy) {
                     this.mediator.OnOneEnemyKilled();
                 }
-                cell.IsVisible = false;
             }
         }
     }
