@@ -12,7 +12,8 @@ enum Status
 {
     Idle,
     ShowStartButton,
-    StartNextLevel
+    StartNextLevel,
+    GameRunning
 }
 
 export class GameLogic
@@ -29,9 +30,15 @@ export class GameLogic
     collisionDetector: CollisionDetector;
     gameState: GameState;
 
+    currentStatus: Status;
     nextStatus: Status;
     nextLevel: number;
 
+    startNewGameMethod : any;
+    levelWonMethod : any;
+    gameOverMethod : any;
+    pauseOverMethod : any;
+    keyDownMethod : any;
 
     constructor(canvas : HTMLCanvasElement, ctx: CanvasRenderingContext2D | null, doc: Document)
     {
@@ -41,6 +48,7 @@ export class GameLogic
 
         this.nextLevel = 1;
         this.nextStatus = 0;
+        this.currentStatus = Status.Idle;
 
         this.mediator = new Mediator();
         this.gameObjects = [];
@@ -58,18 +66,21 @@ export class GameLogic
         this.renderer = new Renderer(this.canvas, this.ctx, this.gameObjects, this.gameState);
         this.collisionDetector = new CollisionDetector(this.mediator, this.gameObjects);
 
-        this.mediator.gameStarted.addListener(() => this.startNewGame());
-        this.mediator.levelWon.addListener((x) => this.wonLevel(x));
-        this.mediator.gameOver.addListener(() => this.gameOver());
-        this.mediator.pauseOver.addListener(() => this.pauseOver());
+        this.startNewGameMethod = () => this.startNewGame();
+        this.levelWonMethod = (x: NumberEvent) => this.wonLevel(x);
+        this.gameOverMethod = () => this.gameOver();
+        this.pauseOverMethod = () => this.pauseOver();
+        this.keyDownMethod = (x: KeyboardEvent) => this.keyDown(x);
+
+        this.mediator.gameStarted.addListener(this.startNewGameMethod);
+        this.mediator.levelWon.addListener(this.levelWonMethod);
+        this.mediator.gameOver.addListener(this.gameOverMethod);
+        this.mediator.pauseOver.addListener(this.pauseOverMethod);
+        this.mediator.keyDown.addListener(this.keyDownMethod);
     }
 
     public start()
     {
-        //this.mediator.onGameStarted();
-
-        console.log("Starting game loop ...");
-
         this.document.addEventListener("keydown", (event: KeyboardEvent) => {
             this.mediator.OnKeyDown(event);
         });
@@ -84,7 +95,7 @@ export class GameLogic
     gameOver()
     {
         this.removeSpaceShip();
-        this.mediator.OnShowMessage("Game Over");
+        this.mediator.OnShowMessage("        Game Over");
         this.nextStatus = Status.ShowStartButton;
         this.mediator.OnStartPause(120);
     }
@@ -96,20 +107,32 @@ export class GameLogic
         if (this.nextStatus == Status.ShowStartButton)
         {
             this.nextStatus = Status.Idle;
-            this.mediator.OnShowStartButton();
+            this.currentStatus = Status.Idle;
+            this.mediator.OnShowMessage("Press x to restart game");
         }
         else if (this.nextStatus == Status.StartNextLevel)
         {
+            this.mediator.OnShowMessage("");
             this.startNewLevel();
+        }
+    }
+
+    keyDown(event: KeyboardEvent)
+    {
+        if (event.key === "x" && this.currentStatus === Status.Idle)
+        {
+            this.mediator.OnShowMessage("");
+            this.mediator.onGameStarted();
+            this.currentStatus = Status.GameRunning;
         }
     }
 
     startNewGame()
     {
-        // this.collisionDetector?.cleanup(); // not required. it stays alive.
         this.cleanupGameObjects();
         this.setupGameObjects(1);
-     // why ??   this.collisionDetector = new CollisionDetector(Mediator, _gameObjects);
+        this.nextLevel = 1;
+        this.nextStatus = Status.StartNextLevel;
     }
 
     cleanupGameObjects()
@@ -121,12 +144,11 @@ export class GameLogic
 
         this.gameObjects.splice(0, this.gameObjects.length)
     }
-    
 
     wonLevel(event: NumberEvent)
     {
-        this. removeSpaceShip();
-        this.mediator.OnShowMessage("Level: " + event.number);
+        this.removeSpaceShip();
+        this.mediator.OnShowMessage("        Level: " + event.number);
 
         if (this.nextStatus == Status.Idle) // note: in the meanwile the game could already been over.
         {
@@ -145,10 +167,10 @@ export class GameLogic
 
     removeSpaceShip()
     {
-        this.spaceShip.cleanup();
         const index = this.gameObjects.indexOf(this.spaceShip);
         if (index !== -1)
         {
+            this.spaceShip.cleanup();
             this.gameObjects.splice(index, 1);
         }
     }    

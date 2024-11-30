@@ -34,6 +34,12 @@ export class GameState
     public get message() : string { return this._message; }
     private set message(value: string) { this._message = value; }
 
+    oneEnemyKilledMethod : any;
+    spaceShipHitMethod : any;
+    enemyWasHitMethod : any;
+    gameStartedMethod : any;
+    showMessageMehod : any;
+
     constructor(mediator: Mediator)
     {
         this._gameScore = 0;
@@ -45,11 +51,17 @@ export class GameState
 
         this.mediator = mediator;
 
-        this.mediator.oneEnemyKilled.addListener(() => this.oneEnemyKilled());
-        this.mediator.spaceShipHit.addListener(() => this.spaceShipHit());
-        this.mediator.enemyHit.addListener(() => this.enemyWasHit());
-        this.mediator.gameStarted.addListener(() => this.gameStarted());
-        this.mediator.showMessage.addListener((x) => this.showMessage(x));
+        this.oneEnemyKilledMethod = () => this.oneEnemyKilled();
+        this.spaceShipHitMethod = () => this.spaceShipHit();
+        this.enemyWasHitMethod = () => this.enemyWasHit();
+        this.gameStartedMethod = () => this.gameStarted();
+        this.showMessageMehod = (x: MessageEvent) => this.showMessage(x)
+
+        this.mediator.oneEnemyKilled.addListener(this.oneEnemyKilledMethod);
+        this.mediator.spaceShipHit.addListener(this.spaceShipHitMethod);
+        this.mediator.enemyHit.addListener(this.enemyWasHitMethod);
+        this.mediator.gameStarted.addListener(this.gameStartedMethod);
+        this.mediator.showMessage.addListener(this.showMessageMehod);
 
         this.initializeGameState();
     }

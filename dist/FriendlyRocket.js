@@ -6,10 +6,11 @@ export class FriendlyRocket extends Rocket {
         this.speedTimer = 0;
         this.rocket = new Cell(startPosX, startPosY, CellType.FriendlyRocket, true);
         this.cells.push(this.rocket);
-        this.mediator.friendlyRocketHitTarget.addListener((x) => this.rocketHitTarget(x));
+        this.friendlyRocketHitTargetMethod = (x) => this.rocketHitTarget(x);
+        this.mediator.friendlyRocketHitTarget.addListener(this.friendlyRocketHitTargetMethod);
     }
     cleanup() {
-        this.mediator.friendlyRocketHitTarget.removeListener((x) => this.rocketHitTarget(x));
+        this.mediator.friendlyRocketHitTarget.removeListener(this.friendlyRocketHitTargetMethod);
     }
     performNextGameStep() {
         this.speedTimer -= 1;

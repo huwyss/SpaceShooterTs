@@ -22,11 +22,16 @@ export class GameState {
         this._level = 1;
         this._message = "";
         this.mediator = mediator;
-        this.mediator.oneEnemyKilled.addListener(() => this.oneEnemyKilled());
-        this.mediator.spaceShipHit.addListener(() => this.spaceShipHit());
-        this.mediator.enemyHit.addListener(() => this.enemyWasHit());
-        this.mediator.gameStarted.addListener(() => this.gameStarted());
-        this.mediator.showMessage.addListener((x) => this.showMessage(x));
+        this.oneEnemyKilledMethod = () => this.oneEnemyKilled();
+        this.spaceShipHitMethod = () => this.spaceShipHit();
+        this.enemyWasHitMethod = () => this.enemyWasHit();
+        this.gameStartedMethod = () => this.gameStarted();
+        this.showMessageMehod = (x) => this.showMessage(x);
+        this.mediator.oneEnemyKilled.addListener(this.oneEnemyKilledMethod);
+        this.mediator.spaceShipHit.addListener(this.spaceShipHitMethod);
+        this.mediator.enemyHit.addListener(this.enemyWasHitMethod);
+        this.mediator.gameStarted.addListener(this.gameStartedMethod);
+        this.mediator.showMessage.addListener(this.showMessageMehod);
         this.initializeGameState();
     }
     initializeGameState() {

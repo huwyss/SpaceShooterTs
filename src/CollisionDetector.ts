@@ -9,13 +9,19 @@ export class CollisionDetector
     private readonly mediator: Mediator;
     private readonly gameObjects: IGameObject[];
 
+    checkCollisionWithUfoMethod : any;
+    checkCollisionWithSpaceShipMethod : any;
+
     constructor(mediator: Mediator, gameObjects: IGameObject[])
     {
         this.mediator = mediator;
         this.gameObjects = gameObjects;
 
-        this.mediator.friendlyRocketMoved.addListener((x) => this.checkCollisionWithUfo(x));
-        this.mediator.enemyRocketMoved.addListener((x) => this.checkCollisionWithSpaceShip(x));
+        this.checkCollisionWithUfoMethod = ((x:PositionEvent) => this.checkCollisionWithUfo(x));
+        this.checkCollisionWithSpaceShipMethod = ((x:PositionEvent) => this.checkCollisionWithSpaceShip(x));
+
+        this.mediator.friendlyRocketMoved.addListener(this.checkCollisionWithUfoMethod);
+        this.mediator.enemyRocketMoved.addListener(this.checkCollisionWithSpaceShipMethod);
     }
 
     private checkCollisionWithUfo(position: PositionEvent) : void

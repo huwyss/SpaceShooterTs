@@ -4,7 +4,8 @@ export class Pause {
         this.bodyCells = [];
         this.mediator = mediator;
         this.timer = 0;
-        this.mediator.startPause.addListener((x) => this.startPause(x));
+        this.startPauseMethod = (x) => this.startPause(x);
+        this.mediator.startPause.addListener(this.startPauseMethod);
     }
     performNextGameStep() {
         if (this.timer > 0) {
@@ -15,7 +16,7 @@ export class Pause {
         }
     }
     cleanup() {
-        this.mediator.startPause.removeListener((x) => this.startPause(x));
+        this.mediator.startPause.removeListener(this.startPauseMethod);
         this.timer = 0;
     }
     startPause(event) {

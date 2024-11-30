@@ -4,8 +4,10 @@ export class CollisionDetector {
     constructor(mediator, gameObjects) {
         this.mediator = mediator;
         this.gameObjects = gameObjects;
-        this.mediator.friendlyRocketMoved.addListener((x) => this.checkCollisionWithUfo(x));
-        this.mediator.enemyRocketMoved.addListener((x) => this.checkCollisionWithSpaceShip(x));
+        this.checkCollisionWithUfoMethod = ((x) => this.checkCollisionWithUfo(x));
+        this.checkCollisionWithSpaceShipMethod = ((x) => this.checkCollisionWithSpaceShip(x));
+        this.mediator.friendlyRocketMoved.addListener(this.checkCollisionWithUfoMethod);
+        this.mediator.enemyRocketMoved.addListener(this.checkCollisionWithSpaceShipMethod);
     }
     checkCollisionWithUfo(position) {
         var rocketX = position.posX;

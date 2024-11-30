@@ -63,8 +63,5 @@ export class Mediator {
     OnPauseOver() {
         this.pauseOver.emit();
     }
-    OnShowStartButton() {
-        this.showStartButton.emit();
-    }
 }
 //# sourceMappingURL=Mediator.js.map

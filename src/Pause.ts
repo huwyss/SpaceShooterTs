@@ -6,13 +6,16 @@ export class Pause implements IGameObject
 {
     private readonly mediator: Mediator;
     timer: number = 0;
+    startPauseMethod: any;
 
     constructor(mediator: Mediator)
     {
         this.mediator = mediator;
         this.timer = 0;
 
-        this.mediator.startPause.addListener((x) => this.startPause(x));
+        this.startPauseMethod = (x: NumberEvent) => this.startPause(x);
+        
+        this.mediator.startPause.addListener(this.startPauseMethod);
     }
 
     bodyCells: ICell[] = [];
@@ -31,7 +34,7 @@ export class Pause implements IGameObject
 
     cleanup(): void
     {
-        this.mediator.startPause.removeListener((x) => this.startPause(x));
+        this.mediator.startPause.removeListener(this.startPauseMethod);
         this.timer = 0;
     }
 

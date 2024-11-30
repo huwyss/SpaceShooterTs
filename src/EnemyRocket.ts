@@ -1,10 +1,11 @@
 import { Rocket } from "./Rocket.js"; // Importiere die Basisklasse
-import { Mediator } from "./Mediator.js"; // Importiere den Mediator
+import { Mediator, PositionEvent } from "./Mediator.js"; // Importiere den Mediator
 import { Cell, CellType } from "./Cell.js"; // Importiere die Cell-Klasse und den CellType
 
 export class EnemyRocket extends Rocket
 {
     speedTimer: number = 0;
+    rocketHitTargetMethod: any;
 
     constructor(mediator: Mediator, startPosX: number, startPosY: number)
     {
@@ -13,12 +14,14 @@ export class EnemyRocket extends Rocket
         this.rocket = new Cell(startPosX, startPosY, CellType.EnemyRocket, true);
         this.cells.push(this.rocket);
 
-        this.mediator.enemyRocketHitTarget.addListener((x) => this.rocketHitTarget(x));
+        this.rocketHitTargetMethod = (x: PositionEvent) => this.rocketHitTarget(x);
+
+        this.mediator.enemyRocketHitTarget.addListener(this.rocketHitTargetMethod);
     }
 
     override cleanup()
     {
-        this.mediator.enemyRocketHitTarget.removeListener((x) => this.rocketHitTarget(x));
+        this.mediator.enemyRocketHitTarget.removeListener(this.rocketHitTargetMethod);
     }
 
     override performNextGameStep(): void

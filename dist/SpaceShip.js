@@ -18,15 +18,17 @@ export class SpaceShip {
         this.ship = new Cell(3, 23, CellType.SpaceShip, true);
         this.cells.push(this.ship);
         this._direction = Direction.None;
-        this.mediator.keyDown.addListener((x) => this.keyDown(x));
-        this.mediator.keyUp.addListener((x) => this.keyUp(x));
+        this.keyDownMethod = (x) => this.keyDown(x);
+        this.keyUpMethod = (x) => this.keyUp(x);
+        this.mediator.keyDown.addListener(this.keyDownMethod);
+        this.mediator.keyUp.addListener(this.keyUpMethod);
     }
     get delay() {
         return 7;
     }
     cleanup() {
-        this.mediator.keyDown.removeListener((x) => this.keyDown(x));
-        this.mediator.keyUp.removeListener((x) => this.keyUp(x));
+        this.mediator.keyDown.removeListener(this.keyDownMethod);
+        this.mediator.keyUp.removeListener(this.keyUpMethod);
         this._direction = Direction.None;
         this.spaceTimer = 0;
     }

@@ -126,9 +126,4 @@ export class Mediator
     {
         this.pauseOver.emit();
     }
-
-    OnShowStartButton() : void
-    {
-        this.showStartButton.emit();
-    }
 }

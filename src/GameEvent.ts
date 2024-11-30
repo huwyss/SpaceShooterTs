@@ -9,6 +9,11 @@ export class GameEvent<T> {
     // Entfernen eines Event-Handlers (-=)
     public removeListener(listener: (args: T) => void): void {
         this.listeners = this.listeners.filter(l => l !== listener);
+        // var index = this.listeners.indexOf(listener);
+        // if (index > -1)
+        // {
+        //     this.listeners.splice(index, 1);
+        // }
     }
 
     // Auslösen des Events

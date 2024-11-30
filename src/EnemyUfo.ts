@@ -15,6 +15,9 @@ export class EnemyUfo implements IGameObject
     private difficulty : number;
     private approachTimerStart : number;
     private speedTimer: number;
+    enemyHitMethod: any;
+    approachTimer: number;
+    gameLost: boolean;
 
     constructor(mediator : Mediator, level: number, gameObjects: IGameObject[])
     {
@@ -28,16 +31,20 @@ export class EnemyUfo implements IGameObject
         this.ribbonY = 0;
         this.createAndAddUfo(2, 2);
         this.speedTimer = 0;
+        this.approachTimer = 0;
+        this.gameLost = false;
         
         this.difficulty = 1 - level * 0.07;
-        this.approachTimerStart = 100 - 5 * level;
+        this.approachTimerStart = 400 - 20 * level;
 
-        this.mediator.enemyHit.addListener((x) => this.enemyWasHit(x));
+        this.enemyHitMethod = (x: PositionEvent) => this.enemyWasHit(x);
+
+        this.mediator.enemyHit.addListener(this.enemyHitMethod);
     }
 
     cleanup(): void
     {
-        this.mediator.enemyHit.removeListener((x) => this.enemyWasHit(x));
+        this.mediator.enemyHit.removeListener(this.enemyHitMethod);
     }
 
     public get bodyCells(): ICell[]
@@ -51,6 +58,11 @@ export class EnemyUfo implements IGameObject
 
     performNextGameStep(): void
     {
+        if (this.gameLost)
+        {
+            return;
+        }
+
         this.speedTimer -= 1;
         if (this.speedTimer > 0)
         {
@@ -64,8 +76,26 @@ export class EnemyUfo implements IGameObject
             this.ufoFired(posX, this.ribbonY);
         }
 
+        this.approach();
         this.rotateRibbon();
+        this.gameOverIfAttacked();
     }
+
+    approach() : void
+    {
+        this.approachTimer--;
+        if (this.approachTimer < 0)
+        {
+            this.approachTimer = this.approachTimerStart;
+            for(var cell of this.cells)
+            {
+                cell.PositionY++;
+            }
+        }
+
+        this.ribbonY = this.ribbon[0].PositionY;
+    }
+
 
     private rotateRibbon() : void
     {
@@ -74,6 +104,15 @@ export class EnemyUfo implements IGameObject
         for (const ribbonCell of this.ribbon)
         {
             ribbonCell.PositionX = (ribbonCell.PositionX - this.ribbonLeftX + 1) % ribbonLength + this.ribbonLeftX;
+        }
+    }
+
+    gameOverIfAttacked()
+    {
+        if (this.ribbon[0].PositionY > 21)
+        {
+            this.gameLost = true;
+            this.mediator.OnGameOver();
         }
     }
 

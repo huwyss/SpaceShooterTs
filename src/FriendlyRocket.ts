@@ -5,6 +5,7 @@ import { Cell, CellType } from "./Cell.js";
 export class FriendlyRocket extends Rocket
 {
     speedTimer: number = 0;
+    friendlyRocketHitTargetMethod: any;
 
     constructor(mediator: Mediator, startPosX: number, startPosY: number)
     {
@@ -13,12 +14,14 @@ export class FriendlyRocket extends Rocket
         this.rocket = new Cell(startPosX, startPosY,CellType.FriendlyRocket, true);
         this.cells.push(this.rocket);
 
-        this.mediator.friendlyRocketHitTarget.addListener((x) => this.rocketHitTarget(x));
+        this.friendlyRocketHitTargetMethod = (x: PositionEvent) => this.rocketHitTarget(x);
+
+        this.mediator.friendlyRocketHitTarget.addListener(this.friendlyRocketHitTargetMethod);
     }
 
     override cleanup()
     {
-        this.mediator.friendlyRocketHitTarget.removeListener((x) => this.rocketHitTarget(x));
+        this.mediator.friendlyRocketHitTarget.removeListener(this.friendlyRocketHitTargetMethod);
     }
 
     override performNextGameStep(): void

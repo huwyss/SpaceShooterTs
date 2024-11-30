@@ -6,10 +6,11 @@ export class EnemyRocket extends Rocket {
         this.speedTimer = 0;
         this.rocket = new Cell(startPosX, startPosY, CellType.EnemyRocket, true);
         this.cells.push(this.rocket);
-        this.mediator.enemyRocketHitTarget.addListener((x) => this.rocketHitTarget(x));
+        this.rocketHitTargetMethod = (x) => this.rocketHitTarget(x);
+        this.mediator.enemyRocketHitTarget.addListener(this.rocketHitTargetMethod);
     }
     cleanup() {
-        this.mediator.enemyRocketHitTarget.removeListener((x) => this.rocketHitTarget(x));
+        this.mediator.enemyRocketHitTarget.removeListener(this.rocketHitTargetMethod);
     }
     performNextGameStep() {
         this.speedTimer -= 1;

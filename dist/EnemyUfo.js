@@ -11,12 +11,15 @@ export class EnemyUfo {
         this.ribbonY = 0;
         this.createAndAddUfo(2, 2);
         this.speedTimer = 0;
+        this.approachTimer = 0;
+        this.gameLost = false;
         this.difficulty = 1 - level * 0.07;
-        this.approachTimerStart = 100 - 5 * level;
-        this.mediator.enemyHit.addListener((x) => this.enemyWasHit(x));
+        this.approachTimerStart = 400 - 20 * level;
+        this.enemyHitMethod = (x) => this.enemyWasHit(x);
+        this.mediator.enemyHit.addListener(this.enemyHitMethod);
     }
     cleanup() {
-        this.mediator.enemyHit.removeListener((x) => this.enemyWasHit(x));
+        this.mediator.enemyHit.removeListener(this.enemyHitMethod);
     }
     get bodyCells() {
         return this.cells;
@@ -25,6 +28,9 @@ export class EnemyUfo {
         return 2;
     }
     performNextGameStep() {
+        if (this.gameLost) {
+            return;
+        }
         this.speedTimer -= 1;
         if (this.speedTimer > 0) {
             return;
@@ -35,12 +41,30 @@ export class EnemyUfo {
             var posX = Math.floor(Math.random() * 29 + 2);
             this.ufoFired(posX, this.ribbonY);
         }
+        this.approach();
         this.rotateRibbon();
+        this.gameOverIfAttacked();
+    }
+    approach() {
+        this.approachTimer--;
+        if (this.approachTimer < 0) {
+            this.approachTimer = this.approachTimerStart;
+            for (var cell of this.cells) {
+                cell.PositionY++;
+            }
+        }
+        this.ribbonY = this.ribbon[0].PositionY;
     }
     rotateRibbon() {
         var ribbonLength = this.ribbonRightX - this.ribbonLeftX + 1;
         for (const ribbonCell of this.ribbon) {
             ribbonCell.PositionX = (ribbonCell.PositionX - this.ribbonLeftX + 1) % ribbonLength + this.ribbonLeftX;
+        }
+    }
+    gameOverIfAttacked() {
+        if (this.ribbon[0].PositionY > 21) {
+            this.gameLost = true;
+            this.mediator.OnGameOver();
         }
     }
     ufoFired(posX, posY) {

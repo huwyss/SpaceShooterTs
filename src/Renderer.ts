@@ -1,7 +1,6 @@
 import { CellType } from "./Cell.js";
 import { IGameObject } from "./IGameObject.js";
 import { GameState } from "./GameState.js";
-import { Mediator } from "./Mediator.js";
 
 export class Renderer
 {
@@ -104,9 +103,9 @@ export class Renderer
             this.ctx.font = "30px Arial";
             this.ctx.fillStyle = "black";
             var scoreText = "Score: " + this.gameState.gameScore + "     Lives: " + this.gameState.lives + "     Level: " + this.gameState.level + "     Highscore: " + this.gameState.highScore;
-            this.ctx.fillText(scoreText, 50, 30);
+            this.ctx.fillText(scoreText, 30, 30);
 
-            this.ctx.fillText(this.gameState.message, 300, 200);
+            this.ctx.fillText(this.gameState.message, 250, 300);
         }
     }
 

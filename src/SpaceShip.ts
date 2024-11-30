@@ -11,6 +11,9 @@ enum Direction {
 
 export class SpaceShip implements IGameObject
 {
+    keyDownMethod : any;
+    keyUpMethod : any;
+
     private readonly mediator: Mediator;
     private readonly gameObjects: IGameObject[];
     private cells: ICell[] = [];
@@ -21,7 +24,8 @@ export class SpaceShip implements IGameObject
     private speedTimer: number = 0;
     private fireSpeed: number = 12;
 
-    constructor(mediator: Mediator, gameObjects: IGameObject[]) {
+    constructor(mediator: Mediator, gameObjects: IGameObject[])
+    {
         this.mediator = mediator;
         this.gameObjects = gameObjects;
 
@@ -30,8 +34,11 @@ export class SpaceShip implements IGameObject
 
         this._direction = Direction.None;
 
-        this.mediator.keyDown.addListener((x) => this.keyDown(x));
-        this.mediator.keyUp.addListener((x) => this.keyUp(x));
+        this.keyDownMethod = (x: KeyboardEvent) => this.keyDown(x);
+        this.keyUpMethod = (x: KeyboardEvent) => this.keyUp(x);
+
+        this.mediator.keyDown.addListener(this.keyDownMethod);
+        this.mediator.keyUp.addListener(this.keyUpMethod);
     }
 
     get delay(): number {
@@ -40,8 +47,8 @@ export class SpaceShip implements IGameObject
 
     public cleanup(): void
     {
-        this.mediator.keyDown.removeListener((x) => this.keyDown(x));
-        this.mediator.keyUp.removeListener((x) => this.keyUp(x));
+        this.mediator.keyDown.removeListener(this.keyDownMethod);
+        this.mediator.keyUp.removeListener(this.keyUpMethod);
         this._direction = Direction.None;
         this.spaceTimer = 0;
     }
