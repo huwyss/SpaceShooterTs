@@ -10,6 +10,7 @@ export class Mediator {
         this.enemyHit = new GameEvent();
         this.enemyRocketHitTarget = new GameEvent();
         this.spaceShipHit = new GameEvent();
+        this.oneEnemyKilled = new GameEvent();
     }
     onGameStarted() {
         this.gameStarted.emit();
@@ -37,6 +38,9 @@ export class Mediator {
     }
     OnSpaceShipHit(event) {
         this.spaceShipHit.emit(event);
+    }
+    OnOneEnemyKilled() {
+        this.oneEnemyKilled.emit();
     }
 }
 //# sourceMappingURL=Mediator.js.map

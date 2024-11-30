@@ -1,6 +1,6 @@
 import { CellType } from "./Cell.js";
 export class Renderer {
-    constructor(canvas, ctx, gameObjects) {
+    constructor(canvas, ctx, gameObjects, gameState) {
         this.backgroundColor = "lightblue";
         this.enemyColor = "lightgreen";
         this.ufoColor = "darkgrey";
@@ -12,38 +12,40 @@ export class Renderer {
         this.gameLoop = () => {
             this.drawBackground();
             this.drawGameObjects();
-            this._gameObjects.forEach(gameObject => {
+            this.drawGameState();
+            this.gameObjects.forEach(gameObject => {
                 gameObject.performNextGameStep();
             });
             requestAnimationFrame(this.gameLoop);
         };
-        this._canvas = canvas;
-        this._ctx = ctx;
-        this._gameObjects = gameObjects;
-        this._cellSize = 25;
-        this._gridSizeX = this._canvas.width / this._cellSize;
-        this._gridSizeY = this._canvas.height / this._cellSize;
+        this.canvas = canvas;
+        this.ctx = ctx;
+        this.gameObjects = gameObjects;
+        this.gameState = gameState;
+        this.cellSize = 25;
+        this.gridSizeX = this.canvas.width / this.cellSize;
+        this.gridSizeY = this.canvas.height / this.cellSize;
     }
     drawBackground() {
-        if (this._ctx == null) {
+        if (this.ctx == null) {
             return;
         }
-        this._ctx.fillStyle = this.backgroundColor;
-        this._ctx.fillRect(0, 0, this._canvas.width, this._canvas.height);
+        this.ctx.fillStyle = this.backgroundColor;
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
     drawGameObjects() {
-        if (this._ctx == null) {
+        if (this.ctx == null) {
             return;
         }
-        this._gameObjects.forEach((gameObject) => {
+        this.gameObjects.forEach((gameObject) => {
             gameObject.bodyCells.forEach(cell => {
                 let x = cell.PositionX;
                 let y = cell.PositionY;
                 let type = cell.Type;
                 let visible = cell.IsVisible;
                 if (visible) {
-                    this._ctx.fillStyle = this.getColor(type);
-                    this._ctx.fillRect(x * this._cellSize, y * this._cellSize, this._cellSize, this._cellSize);
+                    this.ctx.fillStyle = this.getColor(type);
+                    this.ctx.fillRect(x * this.cellSize, y * this.cellSize, this.cellSize, this.cellSize);
                 }
             });
         });
@@ -71,6 +73,14 @@ export class Renderer {
             default:
                 return this.friendlyRocketColor;
                 break;
+        }
+    }
+    drawGameState() {
+        if (this.ctx) {
+            this.ctx.font = "30px Arial";
+            this.ctx.fillStyle = "black";
+            var scoreText = "Score: " + this.gameState.gameScore + "     Lives: " + this.gameState.lives + "     Level: " + this.gameState.level + "     Highscore: " + this.gameState.highScore;
+            this.ctx.fillText(scoreText, 50, 30);
         }
     }
 }

@@ -24,6 +24,7 @@ export class Mediator
     enemyHit: GameEvent<PositionEvent>;
     enemyRocketHitTarget: GameEvent<PositionEvent>;
     spaceShipHit: GameEvent<PositionEvent>;
+    oneEnemyKilled: GameEvent<void>;
 
     constructor ()
     {
@@ -36,6 +37,7 @@ export class Mediator
         this.enemyHit = new GameEvent<PositionEvent>();
         this.enemyRocketHitTarget = new GameEvent<PositionEvent>();
         this.spaceShipHit = new GameEvent<PositionEvent>();
+        this.oneEnemyKilled = new GameEvent<void>();
     }
     
     onGameStarted() : void
@@ -81,5 +83,10 @@ export class Mediator
     OnSpaceShipHit(event: PositionEvent) : void
     {
         this.spaceShipHit.emit(event);
+    }
+
+    OnOneEnemyKilled() : void
+    {
+        this.oneEnemyKilled.emit();
     }
 }

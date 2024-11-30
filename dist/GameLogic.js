@@ -3,6 +3,7 @@ import { Mediator } from './Mediator.js';
 import { Renderer } from './Renderer.js';
 import { EnemyUfo } from './EnemyUfo.js';
 import { CollisionDetector } from './CollisionDetector.js';
+import { GameState } from './GameState.js';
 export class GameLogic {
     constructor(canvas, ctx, doc) {
         this.canvas = canvas;
@@ -10,11 +11,12 @@ export class GameLogic {
         this.document = doc;
         this.mediator = new Mediator();
         this.gameObjects = [];
+        this.gameState = new GameState(this.mediator);
         this.spaceShip = new SpaceShip(this.mediator, this.gameObjects);
         this.gameObjects.push(this.spaceShip);
         this.enemyUfo = new EnemyUfo(this.mediator, 1, this.gameObjects);
         this.gameObjects.push(this.enemyUfo);
-        this.renderer = new Renderer(this.canvas, this.ctx, this.gameObjects);
+        this.renderer = new Renderer(this.canvas, this.ctx, this.gameObjects, this.gameState);
         this.collisionDetector = new CollisionDetector(this.mediator, this.gameObjects);
     }
     start() {

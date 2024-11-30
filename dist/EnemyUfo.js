@@ -6,8 +6,8 @@ export class EnemyUfo {
         this.gameObjects = gameObjects;
         this.cells = [];
         this.ribbon = [];
-        this.ribbonRightX = 0;
         this.ribbonLeftX = 1000; // big number, will be set properly while ufo is created.
+        this.ribbonRightX = 0;
         this.ribbonY = 0;
         this.createAndAddUfo(2, 2);
         this.speedTimer = 0;
@@ -29,7 +29,7 @@ export class EnemyUfo {
         this.speedTimer = this.frequency;
         if (Math.random() > this.difficulty) // level 1: difficulty = 90% => fires in 10% of steps.
          {
-            var posX = Math.random() * 29 + 2;
+            var posX = Math.floor(Math.random() * 29 + 2);
             this.ufoFired(posX, this.ribbonY);
         }
         this.rotateRibbon();
@@ -95,7 +95,7 @@ export class EnemyUfo {
         for (const cell of this.bodyCells) {
             if (position.posX === cell.PositionX && position.posY === cell.PositionY && cell.IsVisible) {
                 if (cell.Type == CellType.Enemy) {
-                    // this.mediator.OnOneEnemyKilled();
+                    this.mediator.OnOneEnemyKilled();
                 }
                 cell.IsVisible = false;
             }
